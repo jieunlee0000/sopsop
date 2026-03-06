@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이지 설명 - 깃깃 (GitGit)</title>
+    <meta name="description" content="깃깃(GitGit) 프로젝트의 세 번째 서브 페이지입니다.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --accent-primary: #6366f1;
+            --accent-secondary: #ec4899;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .light-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.1;
+            animation: float 25s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-secondary);
+            bottom: -150px;
+            right: -100px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(-30px, -30px) scale(1.05);
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 40px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .back-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .content-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 30px;
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        .info-box h2 {
+            font-size: 1.3rem;
+            color: var(--accent-secondary);
+            margin-bottom: 12px;
+            margin-top: 0;
+        }
+
+        @media (max-width: 640px) {
+            .glass-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-light">
+        <div class="light-blob blob-1"></div>
+    </div>
+
+    <main class="container">
+        <div class="glass-card">
+            <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
+            <h1>페이지 설명 (Sub3)</h1>
+
+            <div class="content-section">
+                <p>
+                    이 페이지는 <strong>깃깃(GitGit) 프로젝트</strong>의 세 번째 서브 페이지입니다.
+                </p>
+                
+                <div class="info-box">
+                    <h2>안내 사항</h2>
+                    <p style="margin-bottom: 0;">이 공간은 프로젝트에 대한 추가적인 설명, 가이드라인 또는 새로운 기능을 소개하기 위해 예약된 페이지입니다. 현재는 기존 파일들과 동일한 레이아웃과 디자인 시스템이 적용되어 있으며, 향후 필요에 따라 다양한 콘텐츠로 채워질 예정입니다.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
