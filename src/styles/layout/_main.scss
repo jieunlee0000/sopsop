@@ -1,19 +1,19 @@
-@use './../utils' as *;
+@use "./../utils" as *;
 
 .inner {
-    width: 95%;
-    max-width: 1600px;
-    margin: 0 auto;
+  width: 95%;
+  max-width: 1600px;
+  margin: 0 auto;
 
-    @include tablet {
-        padding: 0 20px;
-    }
+  @include tablet {
+    padding: 0 20px;
+  }
 
-    @include mobile {
-        padding: 0 15px;
-    }
+  @include mobile {
+    padding: 0 15px;
+  }
 }
 
 .main {
-    min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
 }
