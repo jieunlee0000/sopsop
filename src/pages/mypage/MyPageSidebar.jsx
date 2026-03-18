@@ -46,6 +46,14 @@ function MyPageSidebar() {
               문의하기
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/board"
+              className={({ isActive }) => (isActive ? "is-active" : "")}
+            >
+              고객지원
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </aside>

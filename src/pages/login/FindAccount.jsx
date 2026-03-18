@@ -73,7 +73,7 @@ function FindAccount() {
       <div className="auth-page__layout">
         <div className="auth-page__image">
           <img
-            src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&q=80"
+            src="https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwf8c14df6/images/products/SK10/Aesop_Skin_Damascan_Rose_Facial_Treatment_25mL_Web_Front_2000x2000px.png"
             alt="Aesop Account Recovery"
           />
         </div>
