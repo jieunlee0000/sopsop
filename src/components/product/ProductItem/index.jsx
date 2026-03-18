@@ -49,7 +49,7 @@ const ProductItem = ({ product, hideActions = false }) => {
             <Link to={`/product/${product.id}`} className="product-card__link">
                 <div className="product-card__thumb">
                     <img
-                        src={product.image}
+                        src={currentVolume?.image || product.image}
                         alt={product.name}
                         className={product.hoverImage ? 'product-card__img-main has-hover-main' : 'product-card__img-main no-hover-main'}
                     />

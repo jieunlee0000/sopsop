@@ -12,15 +12,15 @@ const rawProductData = [
         subcategory: 'handbalm',
         name: '엘레오스 아로마틱 핸드 밤',
         price: 39000,
-        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw73d5d0c4/images/products/BM18/Aesop_Hand_Eleos_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=fffef2',
+        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw73d5d0c4/images/products/BM18/Aesop_Hand_Eleos_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2',
         hoverImage: '',
         description: '허브, 우디, 스파이시',
         isNew: false,
         isBest: true,
         stock: 10,
         volumes: [
-            { volume: '75ml', price: 39000, stock: 10 },
-            { volume: '500ml', price: 130000, stock: 10 },
+            { volume: '75ml', price: 39000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw73d5d0c4/images/products/BM18/Aesop_Hand_Eleos_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
+            { volume: '500ml', price: 130000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw497240c0/images/products/BM19/Aesop_Hand_Eleos_Aromatique_Hand_Balm_500mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
         ],
     },
     {
@@ -29,15 +29,15 @@ const rawProductData = [
         subcategory: 'handbalm',
         name: '레저렉션 아로마틱 핸드 밤',
         price: 130000,
-        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfbbdd53d/images/products/BM06/Aesop_Hand_Resurrection_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=fffef2',
+        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfbbdd53d/images/products/BM06/Aesop_Hand_Resurrection_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2',
         hoverImage: '',
         description: '시트러스, 우드, 허브',
         isNew: true,
         isBest: false,
         stock: 10,
         volumes: [
-            { volume: '75ml', price: 39000, stock: 10 },
-            { volume: '500ml', price: 130000, stock: 10 },
+            { volume: '75ml', price: 39000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfbbdd53d/images/products/BM06/Aesop_Hand_Resurrection_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
+            { volume: '500ml', price: 130000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw82490f23/images/products/BM07/Aesop_Hand_Resurrection_Aromatique_Hand_Balm_500mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
         ],
     },
     {
@@ -46,15 +46,15 @@ const rawProductData = [
         subcategory: 'handbalm',
         name: '레버런스 아로마틱 핸드 밤',
         price: 39000,
-        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw71c9f431/images/products/BM13/Aesop_Hand_Reverence_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=fffef2',
+        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw71c9f431/images/products/BM13/Aesop_Hand_Reverence_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2',
         hoverImage: '',
         description: '우드, 흙내음, 스모키',
         isNew: false,
         isBest: true,
         stock: 10,
         volumes: [
-            { volume: '75ml', price: 39000, stock: 10 },
-            { volume: '500ml', price: 130000, stock: 10 },
+            { volume: '75ml', price: 39000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw71c9f431/images/products/BM13/Aesop_Hand_Reverence_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
+            { volume: '500ml', price: 130000, stock: 10, image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw55998a1a/images/products/BM14/Aesop_Hand_Reverence_Aromatique_Hand_Balm_500mL_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2' },
         ],
     },
     {
@@ -94,7 +94,7 @@ const rawProductData = [
         subcategory: 'handset',
         name: '레저렉션 듀엣',
         price: 170000,
-        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw58c7aa80/images/products/APB73/Aesop_Kits_Resurrection_Duet_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=fffef2',
+        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw58c7aa80/images/products/APB73/Aesop_Kits_Resurrection_Duet_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2',
         hoverImage: '',
         description: '핸드 워시 + 핸드 밤 세트',
         isNew: false,
@@ -109,7 +109,7 @@ const rawProductData = [
         subcategory: 'handset',
         name: '레버런스 듀엣',
         price: 170000,
-        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw942e9045/images/products/APB109/Aesop_Kits_Reverence_Duet_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=fffef2',
+        image: 'https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw942e9045/images/products/APB109/Aesop_Kits_Reverence_Duet_Web_Front_A_2000x2000px.jpg?sw=700&sh=700&sm=cut&sfrm=png&q=70&bgcolor=FDFBF2',
         hoverImage: '',
         description: '베티버 뿌리, 페티그레인',
         isNew: true,
@@ -534,32 +534,33 @@ const normalizeProduct = (product) => {
     const volumes =
         rawVolumes.length > 0
             ? rawVolumes.map((option, index) => ({
-                  ...option,
-                  // 수정: 세트 상품의 빈 옵션값 때문에 리스트 버튼/카트 키가 깨지지 않도록 SET 라벨을 보정합니다.
-                  volume:
-                      option.volume && String(option.volume).trim()
-                          ? option.volume
-                          : isSetProduct
+                ...option,
+                // 수정: 세트 상품의 빈 옵션값 때문에 리스트 버튼/카트 키가 깨지지 않도록 SET 라벨을 보정합니다.
+                volume:
+                    option.volume && String(option.volume).trim()
+                        ? option.volume
+                        : isSetProduct
                             ? 'SET'
                             : `옵션 ${index + 1}`,
-                  price: typeof option.price === 'number' ? option.price : product.price,
-                  stock: typeof option.stock === 'number' ? option.stock : product.stock,
-              }))
+                price: typeof option.price === 'number' ? option.price : product.price,
+                stock: typeof option.stock === 'number' ? option.stock : product.stock,
+            }))
             : [
-                  {
-                      volume: isSetProduct ? 'SET' : 'default',
-                      price: product.price,
-                      stock: product.stock,
-                  },
-              ];
+                {
+                    volume: isSetProduct ? 'SET' : 'default',
+                    price: product.price,
+                    stock: product.stock,
+                },
+            ];
 
     return {
         ...product,
         isSet: isSetProduct,
         volumes,
-        // 수정: 제품 리스트는 product.price를 기준으로 정렬/표시하므로 첫 옵션 가격과 항상 동기화합니다.
+        // 수정: 제품 리스트는 첫 번째 옵션(작은 용량 등)을 기준으로 노출되도록 동기화합니다.
         price: volumes[0]?.price ?? product.price,
         stock: typeof product.stock === 'number' ? product.stock : (volumes[0]?.stock ?? 0),
+        image: volumes[0]?.image || product.image,
     };
 };
 
