@@ -5,7 +5,7 @@ import { useGSAP } from '@gsap/react';
 
 /**
  * HomeHero 컴포넌트
- * 
+ *
  * SVG 패스와 GSAP을 통해 보틀 드로잉 및 텍스트 확산 애니메이션을 구현합니다.
  */
 
@@ -45,7 +45,7 @@ function HomeHero() {
 
         const hideOutlineTimer = window.setTimeout(() => {
             setIsOutlineHidden(true);
-        }, 3050);
+        }, 1800);
 
         return () => {
             cancelAnimationFrame(frame);
@@ -53,33 +53,41 @@ function HomeHero() {
         };
     }, []);
 
-    useGSAP(() => {
-        if (!isReady) return;
+    useGSAP(
+        () => {
+            if (!isReady) return;
 
-        // prefers-reduced-motion 확인
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            gsap.set([leftTextRef.current, rightTextRef.current], { opacity: 1, x: (i) => i === 0 ? '-118%' : '118%' });
-            return;
-        }
+            // prefers-reduced-motion 확인
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                gsap.set([leftTextRef.current, rightTextRef.current], {
+                    opacity: 1,
+                    x: (i) => (i === 0 ? '-118%' : '118%'),
+                });
+                return;
+            }
 
-        const isMobile = window.matchMedia('(max-width: 820px)').matches;
-        const startX = isMobile ? '12%' : '18%';
-        const endX = isMobile ? '108%' : '118%';
+            const isMobile = window.matchMedia('(max-width: 820px)').matches;
+            const startX = isMobile ? '12%' : '18%';
+            const endX = isMobile ? '108%' : '118%';
 
-        const tl = gsap.timeline();
+            const tl = gsap.timeline();
 
-        // 텍스트 확산 애니메이션
-        tl.fromTo(leftTextRef.current,
-            { x: `-${startX}`, opacity: 0 },
-            { x: `-${endX}`, opacity: 1, duration: 1.1, ease: 'power2.out', delay: 3.4 }
-        );
+            // 텍스트 확산 애니메이션
+            tl.fromTo(
+                leftTextRef.current,
+                { x: '-2vw', opacity: 0 },
+                { x: '-12.7vw', opacity: 1, duration: 0.8, ease: 'power2.out', delay: 1.3 }
+            );
 
-        tl.fromTo(rightTextRef.current,
-            { x: startX, opacity: 0 },
-            { x: endX, opacity: 1, duration: 1.1, ease: 'power2.out' },
-            '<+=0.15'
-        );
-    }, { dependencies: [isReady], scope: containerRef });
+            tl.fromTo(
+                rightTextRef.current,
+                { x: '2vw', opacity: 0 },
+                { x: '12.7vw', opacity: 1, duration: 0.8, ease: 'power2.out' },
+                '<+=0.1'
+            );
+        },
+        { dependencies: [isReady], scope: containerRef }
+    );
 
     return (
         <section
@@ -94,11 +102,18 @@ function HomeHero() {
 
             <div className="home__hero-title-container">
                 <h2 className="home__hero-heading font-serif">
-                    <span ref={leftTextRef} className="home__hero-text home__hero-text--left">Aesop</span>
-                    <span ref={rightTextRef} className="home__hero-text home__hero-text--right">Origin</span>
+                    <span ref={leftTextRef} className="home__hero-text home__hero-text--left">
+                        Aesop
+                        <span className="home__hero-subtext">
+                            From humble botanical beginnings,<br />
+                            Aesop has shaped a philosophy of thoughtful and purposeful care.
+                        </span>
+                    </span>
+                    <span ref={rightTextRef} className="home__hero-text home__hero-text--right">
+                        Origin
+                    </span>
                 </h2>
             </div>
-
 
             <svg
                 className="home__hero-svg"
@@ -107,7 +122,6 @@ function HomeHero() {
                 fill="none"
                 aria-hidden="true"
             >
-
                 <defs>
                     <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
                         <path d={BOTTLE_PATH} transform={BOTTLE_TRANSFORM} />

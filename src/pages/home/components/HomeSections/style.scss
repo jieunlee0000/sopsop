@@ -11,7 +11,7 @@
 .home {
     &__best {
         padding: 100px 0 150px;
-        background: #fcfaf3;
+        background: $color-yellow-500;
 
         @include mobile {
             padding: 60px 0 100px;
@@ -60,15 +60,16 @@
             }
 
             h3 {
-                font-size: 24px;
-                color: $color-brown-400;
-                font-weight: 400;
-                margin-bottom: 25px;
-                line-height: 1.2;
+                font-size: 28px;
+                color: $color-brown-300;
+                margin-bottom: 10px;
+                line-height: 0.95;
 
                 span {
-                    font-size: 48px;
-                    color: $color-brown-900;
+                    font-size: 70px;
+                    font-family: 'Bona Nova', serif;
+                    color: $color-brown-500;
+                    line-height: 0.95;
                     display: block;
                     margin-top: 5px;
 
@@ -79,10 +80,11 @@
             }
 
             p {
-                font-size: 15px;
-                color: $color-brown-500;
-                line-height: 1.8;
-                margin-bottom: 30px;
+                font-size: 18px;
+                color: $color-brown-300;
+                line-height: 1.5;
+                margin-bottom: 40px;
+                letter-spacing: -0.36px;
                 word-break: keep-all;
 
                 br {
@@ -95,12 +97,13 @@
 
         &-btn {
             display: inline-block;
-            padding: 12px 30px;
-            border: 1px solid $color-brown-900;
-            color: $color-brown-900;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 11px 32px;
+            border: 1px solid $color-brown-500;
+            color: $color-brown-500;
+            font-size: 21px;
             text-decoration: none;
+            letter-spacing: -0.231px;
+            line-height: 1;
             transition: all 0.3s;
 
             &:hover {

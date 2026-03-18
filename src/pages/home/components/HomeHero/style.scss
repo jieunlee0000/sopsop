@@ -29,27 +29,27 @@
 
         &.is-ready {
             .home__hero-overlay {
-                animation: homeHeroOverlayFadeOut 0.9s ease forwards;
-                animation-delay: 3.15s;
+                animation: homeHeroOverlayFadeOut 0.8s ease forwards;
+                animation-delay: 1.6s;
             }
 
             .home__hero-outline--base {
-                transition: stroke-dashoffset 1.85s cubic-bezier(0.62, 0.05, 0.26, 1);
+                transition: stroke-dashoffset 1.0s cubic-bezier(0.62, 0.05, 0.26, 1);
                 stroke-dashoffset: 0 !important;
-                animation: homeHeroOutlineFadeAway 0.35s linear forwards;
-                animation-delay: 2.28s;
+                animation: homeHeroOutlineFadeAway 0.3s linear forwards;
+                animation-delay: 1.25s;
             }
 
             .home__hero-outline--glow {
                 animation:
-                    homeHeroDrawPath 1.85s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
-                    homeHeroOutlineFlash 0.52s ease-out 1 forwards;
-                animation-delay: 0s, 1.92s;
+                    homeHeroDrawPath 1.0s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
+                    homeHeroOutlineFlash 0.4s ease-out 1 forwards;
+                animation-delay: 0s, 1.05s;
             }
 
             .home__hero-bottle-image {
-                animation: homeHeroBottleReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-                animation-delay: 2.25s;
+                animation: homeHeroBottleReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+                animation-delay: 1.2s;
             }
 
             // .home__hero-title-container {
@@ -150,16 +150,41 @@
     }
 
     &__hero-text {
-        opacity: 0;
+        font-family: 'Ogg', serif;
+        font-size: 180px;
+        line-height: 1.5;
+        color: $color-yellow-50;
         white-space: nowrap;
 
         &--left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
             text-align: right;
         }
 
         &--right {
             text-align: left;
         }
+    }
+
+    &__hero-subtext {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: max-content;
+        margin-top: 2rem;
+
+        font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+        font-family: 'Pretendard', sans-serif;
+        line-height: 1.6;
+        letter-spacing: 0.02em;
+        text-align: left;
+        text-transform: none;
+        opacity: 0.95;
+        color: #E6E2E0;
+        white-space: normal;
+        word-break: keep-all;
     }
 
 }
