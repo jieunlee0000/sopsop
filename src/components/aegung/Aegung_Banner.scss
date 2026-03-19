@@ -7,14 +7,15 @@
 .aegung__banner {
     position: relative;
     width: 100%;
-    height: 600px;
-    padding: 300px 0;
+    height: 31.25vw;   // 600px at 1920px viewport — 모든 뷰포트에서 비율 유지
+    min-height: 220px; // 너무 작아지는 것 방지
+    padding: 0;
     background-color: $color-brown-400;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 150px;
+    margin-bottom: 7.81vw; // 150px at 1920px
 
     // 패키징 배너 - 그린 색상
     &--green {
@@ -26,7 +27,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 1800px;
+        width: 93.75vw; // 1800px at 1920px viewport
         height: auto;
         z-index: 1;
         pointer-events: none;
@@ -86,92 +87,88 @@
     }
 
     // ----------------------------------
-    // 반응형 - 태블릿
+    // 반응형 - 태블릿 (≤1023px)
+    // 섹션 높이 vw 고정 + 배경 이미지 뷰포트에 맞게 스케일
     // ----------------------------------
     @include tablet {
-        padding: 70px 20px;
-        height: 400px;
+        height: 31.25vw;       // 기본과 동일 비율 유지 (자동 스케일)
+        margin-bottom: 14.66vw; // 150px at 1023px
 
-        &__center-bg {
-            width: 300px;
+        // 배경 이미지: absolute 유지, width: 100%로 뷰포트에 맞춰 스케일
+        // height: auto → 이미지 자체 비율 유지 (크롭/찌그러짐 없음)
+        &__bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: auto;
+            z-index: 1;
         }
 
-        &__cloud {
-            width: 80px;
-            opacity: 0.4;
-
-            &--1,
-            &--3 {
-                left: 5%;
-            }
-
-            &--6,
-            &--8 {
-                right: 5%;
-            }
-
-            &--2 {
-                left: 3%;
-                width: 60px;
-            }
-
-            &--7 {
-                right: 3%;
-                width: 60px;
-            }
+        &__content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            gap: 1.56vw; // 16px
         }
 
         &__label {
-            font-size: 18px;
+            font-size: 1.76vw; // 18px
         }
 
         &__title {
-            font-size: 44px;
+            font-size: 4.3vw; // 44px
 
             span {
-                font-size: 70px;
+                font-size: 6.84vw; // 70px
             }
         }
 
         &__desc {
-            font-size: 18px;
+            font-size: 1.76vw; // 18px
         }
     }
 
     // ----------------------------------
-    // 반응형 - 모바일
+    // 반응형 - 모바일 (≤600px)
+    // 텍스트 높이 확보를 위해 섹션 더 높게
     // ----------------------------------
     @include mobile {
-        padding: 50px 15px;
-            height: 50px;
+        height: 55vw;          // ~330px at 600px — 텍스트 충분히 수용
+        margin-bottom: 10vw;   // 60px
 
-        &__border {
-            width: 98%;
+        // 태블릿에서 변경된 값 명시적 유지
+        &__bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: auto;
         }
 
-        &__center-bg {
-            width: 200px;
-        }
-
-        &__cloud {
-            width: 50px;
-            opacity: 0.3;
+        &__content {
+            width: 95%;
+            gap: 2vw; // 12px
         }
 
         &__label {
-            font-size: 14px;
+            font-size: 2.33vw; // 14px
         }
 
         &__title {
-            font-size: 28px;
+            font-size: 4.67vw; // 28px
 
             span {
-                font-size: 44px;
+                font-size: 7.33vw; // 44px
             }
         }
 
         &__desc {
-            font-size: 14px;
+            font-size: 2.33vw; // 14px
 
             br {
                 display: none;
