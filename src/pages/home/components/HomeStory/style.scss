@@ -7,7 +7,6 @@
 // 수정사항: origin timeline 전용 스타일 분리
 
 .home {
-
     // ===== 2. Brand Story (브랜드 스토리) =====
     &__brand-story {
         padding: 100px 0;
@@ -17,7 +16,7 @@
 
     &__brand-story-inner {
         width: 100%;
-        max-width: 1600px;
+        max-width: 1920px;
         margin: 0 auto;
         position: relative;
         display: flex;
@@ -41,10 +40,10 @@
     &__brand-story-block {
         position: relative;
         width: 100%;
-        height: clamp(600px, 90vh, 900px); // Responsive height capped at 900px
+        height: 1024px;
         display: flex;
         align-items: center;
-        padding: 0 5%;
+        padding: 0;
         background-color: var(--main-bg, $color-yellow-500); // Blend with background
 
         @include tablet {
@@ -60,19 +59,25 @@
         }
 
         .home__brand-story-nav {
-            width: 25%; // Percentage-based width
+            position: absolute;
+            left: 156px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: max-content;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            justify-content: center;
             gap: 12px;
             font-size: 20px;
             font-family: 'Bona Nova', serif;
             color: rgba($color-brown-500, 0.35);
-            margin-right: 10%; // Space before the line
 
             span {
                 cursor: pointer;
-                transition: color 0.3s, font-size 0.3s;
+                transition:
+                    color 0.3s,
+                    font-size 0.3s;
 
                 &.active {
                     color: $color-brown-500;
@@ -87,7 +92,7 @@
 
         .home__brand-story-icon {
             position: absolute;
-            left: 35%; // Anchored to the line
+            left: 552px;
             top: 50%;
             transform: translate(-50%, -50%);
             padding: 20px 0;
@@ -116,10 +121,20 @@
         }
 
         .home__brand-story-content {
-            flex: 1;
-            padding-left: 10%; // Offset from the line
+            --content-left-base: 772px;
+            position: absolute;
+            top: 50%;
+            left: var(--content-left-base);
+            transform: translateY(-50%);
+            width: min(780px, calc(100% - 980px));
+            display: flex;
+            flex-direction: column;
 
             @include mobile {
+                position: relative;
+                top: auto;
+                transform: none;
+                width: 100%;
                 padding-left: 0;
             }
 
@@ -160,28 +175,37 @@
             }
         }
     }
-}
 
+    &__brand-story-content--genesis {
+        left: calc(var(--content-left-base) + 8px);
+    }
+
+    &__brand-story-content--heritage {
+        left: calc(var(--content-left-base) - 5px);
+    }
+
+    &__brand-story-content--presence {
+        left: var(--content-left-base);
+    }
+}
 
 // 수정사항: philosophy 전용 스타일 분리
 
 .home {
-
     // ===== 3. Values (핵심 가치 섹션) =====
     &__values {
-        padding: 0; // 아이템이 화면을 꽉 채우므로 상하 패딩 제거
+        padding: 0;
         background: $color-yellow-500;
-        scroll-snap-type: y proximity; // 자석 효과 추가
     }
 
     &__values-inner {
-        width: 100%; // 100% 너비 활용
-        max-width: none; // 1440px 제한 제거
+        width: 100%;
+        max-width: none;
         margin: 0 auto;
         position: relative;
         display: flex;
         flex-direction: column;
-        align-items: flex-start; // 전체를 수평축 기준으로 정렬
+        align-items: flex-start;
 
         @include mobile {
             padding: 0 20px;
@@ -211,35 +235,40 @@
         display: block;
     }
 
+    &__values-line-path {
+        stroke: $color-brown-500;
+    }
+
     &__values-item {
         position: relative;
         width: 100%;
-        height: clamp(800px, 100vh, 1024px); // 화면 높이에 따라 유동적으로 변화
+        height: 1024px;
         display: flex;
         align-items: center;
-        padding-left: vw(422); // 672px(35%) 지점을 중심으로 맞추기 위해 422px 패딩 (672 - 250)
-        padding-right: vw(192);
-        scroll-snap-align: start; // 스크롤 시 상단에 고정
-        z-index: 5; // 선(z-index: 1)보다 위에 위치하도록 명시
+        padding-left: 302px;
+        padding-right: 192px;
+        z-index: 5;
 
         @include mobile {
+            height: auto;
             padding: 40px 20px;
             flex-direction: column;
             align-items: flex-start;
         }
 
         .home__values-image {
-            width: vw(500); // 이미지 너비 500px. 중앙값은 250px. 422+250 = 672px (35% 지점)
+            width: 500px;
             display: flex;
             justify-content: center;
             position: relative;
-            z-index: 10; // 아이템 내에서도 선보다 확실히 앞에 배치
+            z-index: 2;
+            flex-shrink: 0;
 
             img {
                 width: 100%;
-                height: vw(500); // 정방형 이미지
+                height: 500px;
                 object-fit: cover;
-                background-color: $color-yellow-500; // 투명 영역 가림
+                background-color: $color-yellow-500;
             }
 
             @include tablet {
@@ -252,7 +281,6 @@
             @include mobile {
                 width: 100%;
                 justify-content: flex-start;
-                padding-right: 0;
                 margin-bottom: 20px;
 
                 img {
@@ -264,13 +292,11 @@
         }
 
         .home__values-content {
-            margin-left: vw(150); // 이미지와 컨텐츠 간격 150px
-            padding-left: 0;
+            margin-left: 150px;
             flex: 1;
 
             @include mobile {
                 width: 100%;
-                padding-left: 0;
                 margin-left: 0;
             }
 
@@ -303,18 +329,16 @@
             p {
                 font-size: 18px;
                 color: $color-brown-200;
-                max-width: 600px; // 너비 제한 완화
+                max-width: 600px;
                 letter-spacing: -0.36px;
             }
         }
     }
 }
 
-
 // 수정사항: ingredients 전용 스타일 분리
 
 .home {
-
     // ===== 4. Botanicals (식물 성분 섹션: 가로 스크롤형) =====
     &__botanicals {
         width: 100%;
@@ -328,7 +352,6 @@
         height: 100%;
         width: 100%;
         position: relative;
-        will-change: transform;
     }
 
     &__botanicals-canvas {
@@ -341,34 +364,6 @@
         transform-origin: left top;
         // 캔버스의 높이를 화면 높이(100vh)에 맞게 비율 조절
         // 이로 인해 모든 좌표가 화면 안에 비례해서 들어옵니다.
-    }
-
-    &__botanicals-path-text {
-        letter-spacing: 0.05em;
-        font-style: italic;
-    }
-
-    &__botanicals-svg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-
-        .hero-flow__path {
-            fill: none;
-            stroke: $color-brown-900;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            vector-effect: non-scaling-stroke;
-            opacity: 0;
-        }
-
-        .branch-path {
-            stroke-width: 1.5;
-        }
     }
 
     &__botanicals-interactive {
@@ -386,7 +381,9 @@
             .ingredient-label {
                 font-size: 24px;
                 opacity: 0.6;
-                transition: opacity 0.3s, transform 0.3s;
+                transition:
+                    opacity 0.3s,
+                    transform 0.3s;
             }
 
             .ingredient-image-wrap {
@@ -396,7 +393,9 @@
                 overflow: hidden;
                 opacity: 0;
                 transform: scale(0.8);
-                transition: opacity 0.3s, transform 0.3s;
+                transition:
+                    opacity 0.3s,
+                    transform 0.3s;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 
                 img {
@@ -407,18 +406,6 @@
             }
 
             // 호버 시 혹은 활성화 시
-            &:hover,
-            &.is-active {
-                .ingredient-label {
-                    opacity: 1;
-                    transform: translateX(-10px);
-                }
-
-                .ingredient-image-wrap {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-            }
         }
     }
 
@@ -438,5 +425,183 @@
                 filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
             }
         }
+    }
+}
+
+.botanical-flow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &__svg,
+    &__quote-layer,
+    &__nodes {
+        position: absolute;
+        inset: 0;
+    }
+
+    &__svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    &__quote-layer {
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    &__nodes {
+        z-index: 3;
+        pointer-events: none;
+    }
+
+    &__product-image {
+        pointer-events: none;
+    }
+
+    &__line,
+    &__bottle-outline {
+        fill: none;
+        stroke: rgba($color-brown-900, 0.72);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    &__line {
+        stroke-width: 2;
+    }
+
+    &__line--start {
+        stroke-width: 2;
+    }
+
+    &__line--branch {
+        stroke-width: 2;
+        opacity: 0.92;
+    }
+
+    &__line--merge {
+        stroke-width: 2;
+    }
+
+    &__bottle-outline {
+        stroke-width: 2;
+    }
+
+    &__quote-letter {
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 0;
+        color: $color-brown-500;
+        font-family: 'Ogg', serif;
+        font-size: 120px;
+        line-height: 1;
+        white-space: pre;
+        transform-origin: 0% 90%;
+        will-change: transform;
+    }
+}
+
+.ingredient {
+    position: static;
+    white-space: nowrap;
+
+    &__label {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+        font-family: 'Ogg', serif;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        opacity: 0.28;
+    }
+
+    &__thumb {
+        position: absolute;
+        width: 148px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 14px 30px rgba(70, 44, 32, 0.18);
+        transform: translate(-50%, -50%);
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+.home {
+    &__botanicals {
+        position: relative;
+        width: 100%;
+        min-height: 220svh;
+        background: $color-yellow-500;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 552px;
+            width: 2px;
+            background: rgba($color-brown-900, 0.4);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        &.is-preview {
+            height: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+
+    &__botanicals-viewport {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: hidden;
+
+        .home__botanicals.is-preview & {
+            position: relative;
+            top: auto;
+            height: auto;
+            width: fit-content;
+            min-width: 100%;
+            overflow: visible;
+            padding: 0;
+        }
+    }
+
+    &__botanicals-stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-origin: left top;
+        will-change: transform;
+
+        .home__botanicals.is-preview & {
+            position: relative;
+        }
+    }
+
+    &__botanicals-horizontal,
+    &__botanicals-canvas {
+        width: 100%;
+        height: 100%;
     }
 }

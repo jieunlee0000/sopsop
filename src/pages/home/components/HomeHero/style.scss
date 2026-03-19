@@ -33,7 +33,14 @@
                 animation-delay: 1.6s;
             }
 
+            .home__hero-text {
+                opacity: 1;
+                visibility: visible;
+            }
+
             .home__hero-outline--base {
+                opacity: 1;
+                visibility: visible;
                 transition: stroke-dashoffset 1.0s cubic-bezier(0.62, 0.05, 0.26, 1);
                 stroke-dashoffset: 0 !important;
                 animation: homeHeroOutlineFadeAway 0.3s linear forwards;
@@ -41,6 +48,7 @@
             }
 
             .home__hero-outline--glow {
+                visibility: visible;
                 animation:
                     homeHeroDrawPath 1.0s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
                     homeHeroOutlineFlash 0.4s ease-out 1 forwards;
@@ -106,12 +114,13 @@
         stroke-linejoin: round;
         vector-effect: non-scaling-stroke;
         will-change: stroke-dashoffset, opacity;
+        opacity: 0;
+        visibility: hidden;
 
         &--base {
             stroke: rgba(255, 250, 244, 0.98);
             stroke-width: 2.2;
             filter: none;
-            opacity: 1;
         }
 
         &--glow {
@@ -155,6 +164,8 @@
         line-height: 1.5;
         color: $color-yellow-50;
         white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
 
         &--left {
             display: flex;
@@ -296,6 +307,11 @@
         &__hero-copy {
             opacity: 1;
             transform: none;
+        }
+
+        &__hero-text {
+            opacity: 1;
+            visibility: visible;
         }
 
         &__hero-outline--base,

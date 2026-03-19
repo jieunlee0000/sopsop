@@ -105,7 +105,8 @@ function HomeHero() {
                     <span ref={leftTextRef} className="home__hero-text home__hero-text--left">
                         Aesop
                         <span className="home__hero-subtext">
-                            From humble botanical beginnings,<br />
+                            From humble botanical beginnings,
+                            <br />
                             Aesop has shaped a philosophy of thoughtful and purposeful care.
                         </span>
                     </span>
