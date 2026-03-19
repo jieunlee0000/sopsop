@@ -1,5 +1,6 @@
 import Aegung_Banner from "./Aegung_Banner";
 import Aegung_Product_Card from "./Aegung_Product_Card";
+import "./Aegung_Product.scss";
 
 const productData = [
     {
