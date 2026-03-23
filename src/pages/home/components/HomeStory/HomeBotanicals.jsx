@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const HORIZONTAL_WIDTH = 5659;
 const BASE_HEIGHT = 2539;
+const QUOTE_PATH_ID = 'botanical-flow-quote-path';
 const PRODUCT_CLIP_ID = 'botanical-flow-product-clip';
 const PRODUCT_IMAGE_PATH = '/images/home/bottle_sequence_fix_outline/hero1.png';
 const QUOTE_SOURCE_TEXT = "'If the Path be beautiful, let us not ask where it leads.'";
@@ -13,10 +14,12 @@ const QUOTE_LIFT = 148;
 const QUOTE_FONT_SIZE = 120;
 const QUOTE_TRACKING = 24;
 const QUOTE_BASELINE_SHIFT_Y = 96;
+const QUOTE_ENTRY_CLUSTER_LENGTH = 118;
+const QUOTE_REVEAL_WINDOW = 1.05;
 const QUOTE_PROGRESS_OFFSET = 0;
-const GUIDE_LINE_X = 552;
+const QUOTE_ENTRY_TRAVEL = 0.18;
 
-const START_PATH_D = `M${GUIDE_LINE_X} 1L${GUIDE_LINE_X} 1001.26C551.999837 1189.31 721.908 1585.38 1223.383 1643.43`;
+const START_PATH_D = 'M552 1L552 1001.26C551.999837 1189.31 721.908 1585.38 1223.383 1643.43';
 
 const flowLines = [
     {
@@ -42,13 +45,12 @@ const flowLines = [
 ];
 
 const QUOTE_FLOW_PATH_D = `${START_PATH_D}L1223.383 1643.43C1329.13 1658.64 1578.99 1658.96 1817.61 1598.92C2051.75 1518.9 2286.24 1417.67 2333.59 1400.37C2521.98 1325.85 2902.15 1208.32 3025.3 1183.81C3101.29 1168.69 3372.86 1170.31 3434.68 1183.81C3557.88 1210.72 3640.58 1272.33 3700.94 1298.34C3761.3 1324.35 3804.63 1372.86 3956.99 1413.87C4109.35 1454.88 4369.18 1460.98 4541.5 1550.5`;
-const ENTRY_START_VIEWPORT_RATIO = 0.4;
 const HORIZONTAL_SCROLL_END = 0.84;
-const HORIZONTAL_SCROLL_START = 0.2;
-const SECTION_EXIT_BUFFER_RATIO = 0.6;
+const HORIZONTAL_SCROLL_START = 0.12;
 const TARGET_VISIBLE_WIDTH = 2400;
 const STAGE_SCALE_REDUCTION = 0.7;
-const STAGE_VERTICAL_BIAS = -120;
+const STAGE_VERTICAL_BIAS = -220;
+const GUIDE_LINE_X = 552;
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,7 +112,7 @@ const ingredients = [
 ];
 
 const DRAW_SEQUENCE = {
-    start: [0, 1],
+    start: [0.02, 0.2],
     branches: [
         [0.18, 0.42],
         [0.22, 0.46],
@@ -269,15 +271,19 @@ function HomeBotanicals() {
     const [stageScale, setStageScale] = useState(1);
     const [stageOffsetY, setStageOffsetY] = useState(0);
     const [sectionHeight, setSectionHeight] = useState(BASE_HEIGHT);
-    const [animationScrollDistance, setAnimationScrollDistance] = useState(BASE_HEIGHT);
     const [horizontalOffset, setHorizontalOffset] = useState(0);
-    const [entryProgress, setEntryProgress] = useState(0);
     const [quoteLetters, setQuoteLetters] = useState([]);
     const [quoteProgress, setQuoteProgress] = useState(0);
     const sectionRef = useRef(null);
     const viewportRef = useRef(null);
+    const previewMode = false;
 
     useEffect(() => {
+        if (previewMode) {
+            setStageScale(1);
+            return undefined;
+        }
+
         const updateStageScale = () => {
             const viewportHeight = window.innerHeight || 1;
             const viewportWidth = window.innerWidth || 1;
@@ -295,7 +301,7 @@ function HomeBotanicals() {
         return () => {
             window.removeEventListener('resize', updateStageScale);
         };
-    }, []);
+    }, [previewMode]);
 
     useEffect(() => {
         const updateQuoteLetters = () => {
@@ -324,6 +330,11 @@ function HomeBotanicals() {
     }, []);
 
     useEffect(() => {
+        if (previewMode) {
+            setSectionHeight(BASE_HEIGHT);
+            return undefined;
+        }
+
         const updateSectionMetrics = () => {
             const viewportHeight = window.innerHeight || 1;
             const viewportWidth = window.innerWidth || 1;
@@ -331,10 +342,8 @@ function HomeBotanicals() {
             const maxHorizontalOffset = Math.max(scaledWidth - viewportWidth, 0);
             const horizontalWindow = Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01);
             const totalScrollDistance = maxHorizontalOffset / horizontalWindow;
-            const exitBuffer = viewportHeight * SECTION_EXIT_BUFFER_RATIO;
 
-            setAnimationScrollDistance(totalScrollDistance);
-            setSectionHeight(viewportHeight + totalScrollDistance + exitBuffer);
+            setSectionHeight(viewportHeight + totalScrollDistance);
         };
 
         updateSectionMetrics();
@@ -343,9 +352,15 @@ function HomeBotanicals() {
         return () => {
             window.removeEventListener('resize', updateSectionMetrics);
         };
-    }, [stageScale]);
+    }, [previewMode, stageScale]);
 
     useEffect(() => {
+        if (previewMode) {
+            setHorizontalOffset(0);
+            setQuoteProgress(0);
+            return undefined;
+        }
+
         const updateProgress = () => {
             const section = sectionRef.current;
 
@@ -358,17 +373,14 @@ function HomeBotanicals() {
             const viewportWidth = window.innerWidth || 1;
             const scaledWidth = HORIZONTAL_WIDTH * stageScale;
             const maxHorizontalOffset = Math.max(scaledWidth - viewportWidth, 0);
-            const totalScrollDistance = Math.max(animationScrollDistance, 1);
-            const entryStart = viewportHeight * ENTRY_START_VIEWPORT_RATIO;
-            const entryProgress = clamp01((entryStart - rect.top) / Math.max(entryStart, 1));
-            const mainProgress = clamp01(-rect.top / totalScrollDistance);
+            const totalScrollDistance = Math.max(rect.height - viewportHeight, 1);
+            const rawProgress = clamp01(-rect.top / totalScrollDistance);
             const horizontalProgress = clamp01(
-                (mainProgress - HORIZONTAL_SCROLL_START) /
+                (rawProgress - HORIZONTAL_SCROLL_START) /
                 Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01)
             );
 
-            setEntryProgress(entryProgress);
-            setQuoteProgress(mainProgress);
+            setQuoteProgress(horizontalProgress);
             setHorizontalOffset(maxHorizontalOffset * horizontalProgress);
         };
 
@@ -380,10 +392,10 @@ function HomeBotanicals() {
             window.removeEventListener('scroll', updateProgress);
             window.removeEventListener('resize', updateProgress);
         };
-    }, [stageScale, animationScrollDistance]);
+    }, [previewMode, stageScale]);
 
     useEffect(() => {
-        if (!sectionRef.current || !viewportRef.current) {
+        if (previewMode || !sectionRef.current || !viewportRef.current) {
             return undefined;
         }
 
@@ -392,7 +404,6 @@ function HomeBotanicals() {
             start: 'top top',
             end: () => `+=${Math.max(sectionHeight - (window.innerHeight || 1), 1)}`,
             pin: viewportRef.current,
-            // This section already includes its own scroll runway in sectionHeight.
             pinSpacing: false,
             invalidateOnRefresh: true,
         });
@@ -402,11 +413,11 @@ function HomeBotanicals() {
         return () => {
             trigger.kill();
         };
-    }, [sectionHeight]);
+    }, [previewMode, sectionHeight]);
 
     const motionQuoteLetters = getMotionQuoteLetters(quoteLetters, quoteProgress);
     const startLineStyle = getSegmentDrawStyle(
-        entryProgress,
+        quoteProgress,
         DRAW_SEQUENCE.start,
         START_PATH_LENGTH
     );
@@ -446,132 +457,131 @@ function HomeBotanicals() {
     return (
         <section
             ref={sectionRef}
-            className="home__botanicals"
-            style={{ height: `${sectionHeight}px` }}
+            className={`home__botanicals ${previewMode ? 'is-preview' : ''}`}
+            style={previewMode ? undefined : { height: `${sectionHeight}px` }}
         >
             <div className="home__botanicals-viewport" ref={viewportRef}>
-                <div className="home__botanicals-stage-clip">
+                <div
+                    className="home__botanicals-stage"
+                    style={{
+                        width: HORIZONTAL_WIDTH,
+                        height: BASE_HEIGHT,
+                        top: `${stageOffsetY}px`,
+                        transform: `translate3d(${GUIDE_LINE_X * (1 - stageScale)}px, 0px, 0) scale(${stageScale})`,
+                    }}
+                >
                     <div
-                        className="home__botanicals-stage"
+                        className="home__botanicals-track"
                         style={{
                             width: HORIZONTAL_WIDTH,
                             height: BASE_HEIGHT,
-                            top: `${stageOffsetY}px`,
-                            transform: `translate3d(${GUIDE_LINE_X * (1 - stageScale)}px, 0px, 0) scale(${stageScale})`,
+                            transform: `translate3d(${-horizontalOffset / stageScale}px, 0px, 0)`,
                         }}
                     >
-                        <div
-                            className="home__botanicals-track"
-                            style={{
-                                width: HORIZONTAL_WIDTH,
-                                height: BASE_HEIGHT,
-                                transform: `translate3d(${-horizontalOffset / stageScale}px, 0px, 0)`,
-                            }}
-                        >
-                            <div className="botanical-flow">
-                                <svg
-                                    className="botanical-flow__svg"
-                                    viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
+                        <div className="botanical-flow">
+                            <svg
+                                className="botanical-flow__svg"
+                                viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
+                                preserveAspectRatio="none"
+                                aria-hidden="true"
+                            >
+                                <defs>
+                                    <path id={QUOTE_PATH_ID} d={START_PATH_D} />
+                                    <clipPath id={PRODUCT_CLIP_ID} clipPathUnits="userSpaceOnUse">
+                                        <path d={BOTTLE_CLIP_PATH} />
+                                    </clipPath>
+                                </defs>
+
+                                <path
+                                    className="botanical-flow__line botanical-flow__line--start"
+                                    d={START_PATH_D}
+                                    style={startLineStyle}
+                                />
+
+                                {flowLines.map((line, index) => (
+                                    <path
+                                        key={line.id}
+                                        className="botanical-flow__line botanical-flow__line--branch"
+                                        d={line.d}
+                                        style={flowLineStyles[index]}
+                                    />
+                                ))}
+
+                                <path
+                                    className="botanical-flow__line botanical-flow__line--merge"
+                                    d={MERGE_PATH_D}
+                                    style={mergeLineStyle}
+                                />
+
+                                <image
+                                    href={PRODUCT_IMAGE_PATH}
+                                    x={PRODUCT.x}
+                                    y={PRODUCT.y}
+                                    width={PRODUCT.width}
+                                    height={PRODUCT.height}
+                                    clipPath={`url(#${PRODUCT_CLIP_ID})`}
                                     preserveAspectRatio="none"
-                                    aria-hidden="true"
-                                >
-                                    <defs>
-                                        <clipPath id={PRODUCT_CLIP_ID} clipPathUnits="userSpaceOnUse">
-                                            <path d={BOTTLE_CLIP_PATH} />
-                                        </clipPath>
-                                    </defs>
+                                    className="botanical-flow__product-image"
+                                    style={{
+                                        opacity: productRevealProgress,
+                                    }}
+                                />
 
-                                    <path
-                                        className="botanical-flow__line botanical-flow__line--start"
-                                        d={START_PATH_D}
-                                        style={startLineStyle}
-                                    />
+                                <path
+                                    className="botanical-flow__bottle-outline"
+                                    d={BOTTLE_OUTLINE_PATH}
+                                    style={outlineLineStyle}
+                                />
+                            </svg>
 
-                                    {flowLines.map((line, index) => (
-                                        <path
-                                            key={line.id}
-                                            className="botanical-flow__line botanical-flow__line--branch"
-                                            d={line.d}
-                                            style={flowLineStyles[index]}
-                                        />
-                                    ))}
-
-                                    <path
-                                        className="botanical-flow__line botanical-flow__line--merge"
-                                        d={MERGE_PATH_D}
-                                        style={mergeLineStyle}
-                                    />
-
-                                    <image
-                                        href={PRODUCT_IMAGE_PATH}
-                                        x={PRODUCT.x}
-                                        y={PRODUCT.y}
-                                        width={PRODUCT.width}
-                                        height={PRODUCT.height}
-                                        clipPath={`url(#${PRODUCT_CLIP_ID})`}
-                                        preserveAspectRatio="none"
-                                        className="botanical-flow__product-image"
-                                        style={{
-                                            opacity: productRevealProgress,
-                                        }}
-                                    />
-
-                                    <path
-                                        className="botanical-flow__bottle-outline"
-                                        d={BOTTLE_OUTLINE_PATH}
-                                        style={outlineLineStyle}
-                                    />
-                                </svg>
-
-                                <div className="botanical-flow__quote-layer" aria-hidden="true">
-                                    {motionQuoteLetters.map((letter) =>
-                                        letter.char !== ' ' && !letter.hidden ? (
-                                            <span
-                                                key={letter.id}
-                                                className="botanical-flow__quote-letter font-serif"
-                                                style={{
-                                                    transformOrigin: '0% 90%',
-                                                    transform: `translate3d(${letter.left}px, ${letter.top}px, 0) rotate(${letter.rotation}deg)`,
-                                                }}
-                                            >
-                                                {letter.char}
-                                            </span>
-                                        ) : null
-                                    )}
-                                </div>
-
-                                <div className="botanical-flow__nodes">
-                                    {ingredientStyles.map((ingredient) => (
-                                        <div
-                                            key={ingredient.id}
-                                            className={`ingredient ingredient--${ingredient.id}`}
+                            <div className="botanical-flow__quote-layer" aria-hidden="true">
+                                {motionQuoteLetters.map((letter) =>
+                                    letter.char !== ' ' && !letter.hidden ? (
+                                        <span
+                                            key={letter.id}
+                                            className="botanical-flow__quote-letter font-serif"
+                                            style={{
+                                                transformOrigin: '0% 90%',
+                                                transform: `translate3d(${letter.left}px, ${letter.top}px, 0) rotate(${letter.rotation}deg)`,
+                                            }}
                                         >
-                                            <span
-                                                className="ingredient__label font-serif"
-                                                style={{
-                                                    color: ingredient.color,
-                                                    left: ingredient.labelX,
-                                                    top: ingredient.labelY,
-                                                    opacity: ingredient.opacity,
-                                                    transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px))`,
-                                                }}
-                                            >
-                                                {ingredient.label}
-                                            </span>
-                                            <div
-                                                className="ingredient__thumb"
-                                                style={{
-                                                    left: ingredient.thumbX,
-                                                    top: ingredient.thumbY,
-                                                    opacity: ingredient.opacity,
-                                                    transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px)) scale(${ingredient.scale})`,
-                                                }}
-                                            >
-                                                <img src={ingredient.image} alt={ingredient.label} />
-                                            </div>
+                                            {letter.char}
+                                        </span>
+                                    ) : null
+                                )}
+                            </div>
+
+                            <div className="botanical-flow__nodes">
+                                {ingredientStyles.map((ingredient) => (
+                                    <div
+                                        key={ingredient.id}
+                                        className={`ingredient ingredient--${ingredient.id}`}
+                                    >
+                                        <span
+                                            className="ingredient__label font-serif"
+                                            style={{
+                                                color: ingredient.color,
+                                                left: ingredient.labelX,
+                                                top: ingredient.labelY,
+                                                opacity: ingredient.opacity,
+                                                transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px))`,
+                                            }}
+                                        >
+                                            {ingredient.label}
+                                        </span>
+                                        <div
+                                            className="ingredient__thumb"
+                                            style={{
+                                                left: ingredient.thumbX,
+                                                top: ingredient.thumbY,
+                                                opacity: ingredient.opacity,
+                                                transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px)) scale(${ingredient.scale})`,
+                                            }}
+                                        >
+                                            <img src={ingredient.image} alt={ingredient.label} />
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
