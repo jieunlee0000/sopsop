@@ -14,7 +14,7 @@ const Aegung_Banner = ({ label, title, titleSpan, desc, bgColor }) => {
                     <h2 className="aegung__banner__title"><span>{titleSpan || 'Gung'}</span>{title || '의 시간을 품은 향'}</h2>
                 </div>
                 <p className="aegung__banner__desc">
-                    {desc || <>수백 년의 시간을 묵묵히 견뎌온 궁궐의 단단함과 고아함을<br />이솝의 상징적인 기프트 패키지에 담았습니다.</>}
+                    {desc || <>수백 년의 시간을 묵묵히 견뎌온 <span className='FB'>궁궐의 단단함과 고아함</span>을<br />이솝의 상징적인 기프트 패키지에 담았습니다.</>}
                 </p>
             </div>
         </section>
