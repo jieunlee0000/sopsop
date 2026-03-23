@@ -603,9 +603,9 @@
     &__botanicals {
         position: relative;
         width: 100%;
-        min-height: 220svh;
+        min-height: 100svh;
         background: $color-yellow-500;
-        overflow: hidden;
+        overflow: visible;
 
         &::before {
             content: '';
@@ -631,8 +631,7 @@
     }
 
     &__botanicals-viewport {
-        position: sticky;
-        top: 0;
+        position: relative;
         height: 100svh;
         overflow: hidden;
 
@@ -658,6 +657,14 @@
             position: relative;
         }
     }
+
+    &__botanicals-track {
+        position: absolute;
+        left: 0;
+        top: 0;
+        will-change: transform;
+    }
+
 
     &__botanicals-horizontal,
     &__botanicals-canvas {

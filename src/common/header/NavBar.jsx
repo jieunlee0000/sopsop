@@ -8,6 +8,7 @@ import useStore from '../../store/useStore';
 import { LogOut, User, LogIn } from 'lucide-react';
 
 const navItems = [
+    { label: 'ABOUT', path: '/about' },
     { label: 'AE-GUNG', path: '/ae-gung' },
     { label: 'GIFT', path: '/gift' },
     { label: 'BEST', path: '/product/best' },

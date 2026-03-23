@@ -1,9 +1,4 @@
-/**
- * 홈 컴포넌트 엔트리 포인트
- * 
- * 홈 페이지의 모든 섹션을 내보내고(export), 각각의 SCSS 파일을 하나로 모읍니다.
- * 섹션별 로직과 스타일을 그룹 폴더 내에 유지하여 관리 효율성을 높였습니다.
- */
+// Home component exports.
 
 import './HomeHero/style.scss';
 import './HomeStory/style.scss';
