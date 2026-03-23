@@ -1,6 +1,6 @@
 import Aegung_SpecialStore_CardText from "./Aegung_SpecialStore_CardText";
 import Aegung_SpecialStore_Connector from "./Aegung_SpecialStore_Connector";
-import { specialStoreData } from "../../assets/api/aegung";
+import { specialStoreData } from "../../assets/api/aegung.jsx";
 import "./Aegung_SpecialStores.scss";
 
 const Aegung_SpecialStores = () => {
@@ -43,8 +43,8 @@ const Aegung_SpecialStores = () => {
               <br />
               이솝 스토어에서 온전히 경험해 보세요.
               <br />
-              한국 전통 건축의 미학을 존중하며 다듬어진 공간들은
-              <br />
+              <span className='FB'>한국 전통 건축의 미학</span>을 존중하며 다듬어진 공간들은
+              <br />  
               번잡함에서 벗어난 온전한 쉼을 제공합니다.
             </p>
           </div>

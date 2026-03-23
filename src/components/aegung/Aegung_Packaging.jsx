@@ -47,7 +47,7 @@ const Aegung_Packaging = () => {
                 label="Packaging & Gift Card"
                 titleSpan="Gung"
                 title="의 기품을 전하다"
-                desc="한국의 문양과 전통을 담은 이솝 제품을 통해 한국의 기품을 전달합니다."
+                desc={<><span className='FB'>한국의 문양과 전통</span>을 담은 이솝 제품을 통해 한국의 기품을 전달합니다.</>}
                 bgColor="green"
             />
 
@@ -65,19 +65,19 @@ const Aegung_Packaging = () => {
                             <div className="Aegung_packaging__Top__text-block">
                                 <h3 className="Aegung_packaging__Top__text-title">정제된 아름다움, 궁의 결을 닮다</h3>
                                 <p className="Aegung_packaging__Top__text-desc">
-                                    화려한 장식보다 본연의 가치에 집중하는 이솝의 철학은, 자연의 흐름을 거스르지 않는 궁의 비대칭 미학과 맞닿아 있습니다. 궁의 기품을 담아낸 에디션으로 당신의 일상에 격조 높은 휴식을 선사합니다.
+                                    화려한 장식보다 <span className='FB'>본연의 가치</span>에 집중하는 이솝의 철학은, 자연의 흐름을 거스르지 않는 궁의 <span className='FB'>비대칭 미학</span>과 맞닿아 있습니다. 궁의 기품을 담아낸 에디션으로 당신의 일상에 <span className='FB'>격조 높은 휴식</span>을 선사합니다.
                                 </p>
                             </div>
                             <div className="Aegung_packaging__Top__text-block">
                                 <h3 className="Aegung_packaging__Top__text-title">비움으로 채우는 사유의 시간</h3>
                                 <p className="Aegung_packaging__Top__text-desc">
-                                    궁궐의 고요한 뒤뜰을 거닐듯, 피부 본연의 건강함을 되찾아주는 자연 유래 성분만을 남겼습니다. 후원의 깊은 숲에서 불어오는 바람처럼, 은은하게 퍼지는 이솝의 향기는 마음의 안식을 돕습니다.
+                                    궁궐의 고요한 뒤뜰을 거닐듯, 피부 본연의 건강함을 되찾아주는 <span className='FB'>자연 유래 성분</span>만을 남겼습니다. 후원의 깊은 숲에서 불어오는 바람처럼, 은은하게 퍼지는 이솝의 향기는 <span className='FB'>마음의 안식</span>을 돕습니다.
                                 </p>
                             </div>
                             <div className="Aegung_packaging__Top__text-block">
                                 <h3 className="Aegung_packaging__Top__text-title">전통을 잇는 세심한 배려</h3>
                                 <p className="Aegung_packaging__Top__text-desc">
-                                    단순한 바디 케어를 넘어, 한국의 전통 문양을 현대적인 감각으로 재해석한 패키지는 소장하는 것만으로도 하나의 예술품이 됩니다. 소중한 이에게 한국의 아름다움과 이솝의 진정성을 함께 전해 보세요.
+                                    단순한 바디 케어를 넘어, 한국의 전통 문양을 현대적인 감각으로 재해석한 패키지는 소장하는 것만으로도 하나의 <span className='FB'>예술품</span>이 됩니다. 소중한 이에게 <span className='FB'>한국의 아름다움</span>과 <span className='FB'>이솝의 진정성</span>을 함께 전해 보세요.
                                 </p>
                             </div>
                         </div>
