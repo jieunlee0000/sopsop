@@ -1,0 +1,116 @@
+.about {
+    padding-top: 120px;
+    background-color: var(--bg-color, #fffef9);
+    color: var(--text-color, #333);
+
+    &__hero {
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+
+        &-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+
+            .italic {
+                font-family: inherit;
+                font-style: italic;
+            }
+        }
+
+        &-desc {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #666;
+        }
+    }
+
+    &__section {
+        padding: 100px 0;
+
+        &-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 80px;
+            align-items: center;
+
+            &.reverse {
+                grid-template-columns: 1fr 1.2fr;
+            }
+        }
+
+        &-image {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 1.5s ease;
+            }
+
+            &:hover img {
+                transform: scale(1.05);
+            }
+        }
+
+        &-text {
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            p {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+                color: #444;
+            }
+        }
+    }
+
+    &__sustainable {
+        text-align: center;
+        background-color: #f7f6f2;
+        padding: 120px 0;
+
+        &-content {
+            max-width: 800px;
+            margin: 0 auto;
+
+            h2 {
+                font-size: 3rem;
+                margin-bottom: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+                line-height: 2;
+                color: #555;
+            }
+        }
+    }
+
+    @media (max-width: 991px) {
+        &__section-grid, &__section-grid.reverse {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        &__section-text {
+            order: 2;
+        }
+
+        &__section-image {
+            order: 1;
+            height: 400px;
+        }
+    }
+}

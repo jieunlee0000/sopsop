@@ -5,7 +5,7 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '../common/Layout';
-import { Home, AeGung, Gift, GiftList, Product, ProductDetail, Checkout, Login, Signup, FindAccount, MyPage, MyPageOrders, MyPageWishlist, MyPageInquiry, Board } from '../pages';
+import { Home, AeGung, Gift, GiftList, Product, ProductDetail, Checkout, Login, Signup, FindAccount, MyPage, MyPageOrders, MyPageWishlist, MyPageInquiry, Board, About } from '../pages';
 
 const MyRoutes = () => {
     return (
@@ -14,6 +14,9 @@ const MyRoutes = () => {
                 <Route path="/" element={<Layout />}>
                     {/* 홈 */}
                     <Route index element={<Home />} />
+
+                    {/* 어바웃 */}
+                    <Route path="about" element={<About />} />
 
                     {/* 큐레이션 페이지 */}
                     <Route path="ae-gung" element={<AeGung />} />

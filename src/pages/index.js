@@ -30,3 +30,6 @@ export { default as MyPageInquiry } from './mypage/MyPageInquiry';
 
 // 고객지원
 export { default as Board } from './board';
+
+// 어바웃
+export { default as About } from './about';
