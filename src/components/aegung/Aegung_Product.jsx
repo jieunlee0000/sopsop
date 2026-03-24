@@ -10,7 +10,7 @@ const productData = [
         titleEnMain: "HandWash, HandCream",
         image: "/images/aegung/03-Product/Product01-경복궁.png",
         imageAlt: "경복궁 HandWash, HandCream",
-        desc: <>한국의 고궁, 경복궁의 <span className='FB'>정온한 공기와 고즈넉한 나무의 결</span>을 향으로 재해석한 특별한 세트입니다. 시간이 멈춘 듯한 고궁의 단청 아래서 느껴지는  <span className='FB'>묵직한 우디 향</span>과 대지의 기운을 담은  <span className='FB'>베티버</span>가 조화를 이루어, 일상 속 손을 씻고 보듬는 행위를 하나의 명상적인 의식으로 바꿔줍니다.</>,
+        desc: <>한국의 고궁, 경복궁의 <span className='FB'>정온한 공기와 고즈넉한 나무의 결</span>을 향으로 재해석한 특별한 세트입니다. 시간이 멈춘 듯한 고궁의 단청 아래서 느껴지는  <span className='FB'>묵직한 우디 향</span>과 대지의 기운을 담은  <span className='FB'>베티버</span>가 조화를 이루어, <br/>일상 속 손을 씻고 보듬는 행위를 하나의 명상적인 의식으로 바꿔줍니다.</>,
         notes: [
             { name: "시더우드", desc: "고궁의 기둥과 서까래에서 느껴지는 깊고 단단한 나무의 향."  },
             { name: "베티버", desc: "비 갠 뒤의 흙내음처럼 차분하게 가라앉는 대지의 기운." },

@@ -41,21 +41,21 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 60px 60px;
+      padding: 60px;
     }
 
     &-top {
       display: flex;
       flex-direction: column;
-      gap: -12px;
+      gap: -10x;
     }
 
     &-label {
       font-family: "Pretendard", sans-serif;
       font-size: 24px;
-      font-weight: 400;
+      font-weight: 300;
       color: white;
-      line-height: 150%;
+      line-height: 135%;
       letter-spacing: -0.36px;
     }
 
@@ -65,7 +65,7 @@
       font-weight: 500;
       color: $white;
       line-height: 150%;
-      letter-spacing: -1.3px;
+      letter-spacing: -2px;
     }
 
     &-bottom {
@@ -86,7 +86,7 @@
     &-desc {
       font-family: "Pretendard", sans-serif;
       font-size: 18px;
-      font-weight: 300;
+      font-weight: 200;
       color: $white;
       line-height: 135%;
       letter-spacing: -0.4px;
@@ -154,8 +154,9 @@
 
     &__card7 {
       width: 100%;
-      max-width: 100%;
-      height: auto;
+      max-width: 743px;
+      height: 418px;
+
     }
   }
 
@@ -237,7 +238,7 @@
     display: flex;
     width: 95%;
     max-width: 1420px;
-    margin: 160px auto 0;
+    margin: 80px auto 0;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
@@ -287,7 +288,7 @@
   .Aegung_specialStores__section3__card6 {
     width: 95%;
     max-width: 1420px;
-    margin: 160px auto 0;
+    margin: 80px auto 0;
     display: flex;
     flex-direction: row;
 
@@ -309,55 +310,14 @@
 
   // ── Card 7 (파르나스) ──
   &__card7 {
-    width: 95%;
-    max-width: 1420px;
-    margin: 0 auto 100px;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    &_text {
-      margin-top: 100px;
+    &__text-connector{
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-      justify-content: center;
       gap: 30px;
-    }
-
-    &__left {
-      display: flex;
-      width: 100%;
-      text-align: left;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    &__title-row {
-      display: flex;
-
-    }
-
-    &__title {
-      font-family: "Pretendard", sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: $color-brown-500;
-      letter-spacing: -0.24px;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    &__desc {
-      font-family: "Pretendard", sans-serif;
-      font-size: 18px;
-      font-weight: 400;
-      color: $color-brown-200;
-      line-height: 135%;
-      letter-spacing: -0.32px;
-      width: 100%;
-      text-align: right;
+      margin-left: 80px;
+      margin-top: 30px;
     }
   }
 
@@ -506,8 +466,8 @@
     &__card7 {
       display: flex;
       flex-direction: column-reverse; // DOM: 텍스트 먼저 → column-reverse로 이미지 위
-      max-width: 100%;
-      align-items: flex-start;
+      max-width: 95%;
+      align-items: flex-end;
       margin-bottom: 60px;
       gap: 8px;
 
@@ -565,6 +525,8 @@
         width: 100%;
         max-width: 100%;
         height: auto;
+        padding: 5vw 5vw;
+        gap: 5vw;
       }
     }
 
