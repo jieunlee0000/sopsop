@@ -7,51 +7,35 @@ import {
     BRAND_STORY_LINE_SEGMENTS,
     BRAND_STORY_NAV_ITEMS,
 } from './homeBrandStoryData';
+import {
+    BRAND_STORY_DRAW_SEQUENCE,
+    STORY_PROGRESS_BLEND,
+} from './homeStoryMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TIMING = {
-    line: {
-        baseDuration: 0.62,
-        blend: 0.35,
-    },
-    icon: {
-        baseDuration: 0.68,
-        blend: 0.35,
-    },
-};
-
 const MOBILE_BREAKPOINT = 600;
 
-const getAverage = (values) => {
-    if (!values.length) {
-        return 1;
-    }
+const clamp01 = (value) => Math.max(0, Math.min(1, value));
 
-    return values.reduce((sum, value) => sum + value, 0) / values.length;
+const getWindowProgress = (progress, start, end) =>
+    clamp01((progress - start) / Math.max(end - start, 0.0001));
+
+const easeOutCubic = (value) => 1 - (1 - value) ** 3;
+const getSoftProgress = (value) =>
+    value * (1 - STORY_PROGRESS_BLEND) + easeOutCubic(value) * STORY_PROGRESS_BLEND;
+
+const setIndexedRef = (collectionRef, index) => (element) => {
+    collectionRef.current[index] = element;
 };
 
-const getBlendedDuration = (baseDuration, ratio, blend) =>
-    baseDuration * (1 + (ratio - 1) * blend);
+const setNestedRef = (collectionRef, index, nestedIndex) => (element) => {
+    if (!collectionRef.current[index]) {
+        collectionRef.current[index] = [];
+    }
 
-const getTotalPathLength = (paths) =>
-    paths.reduce((sum, path) => (path ? sum + path.getTotalLength() : sum), 0);
-
-const setIndexedRef =
-    (collectionRef, index) =>
-    (element) => {
-        collectionRef.current[index] = element;
-    };
-
-const setNestedRef =
-    (collectionRef, index, nestedIndex) =>
-    (element) => {
-        if (!collectionRef.current[index]) {
-            collectionRef.current[index] = [];
-        }
-
-        collectionRef.current[index][nestedIndex] = element;
-    };
+    collectionRef.current[index][nestedIndex] = element;
+};
 
 function BrandStoryTitle({ segments }) {
     return segments.map((segment, index) => (
@@ -73,14 +57,9 @@ function HomeBrandStory() {
             const mm = gsap.matchMedia();
 
             mm.add(`(min-width: ${MOBILE_BREAKPOINT + 1}px)`, () => {
-                const averageSegmentHeight = getAverage(
-                    BRAND_STORY_LINE_SEGMENTS.map((segment) => segment.height)
-                );
                 const iconPathGroups = BRAND_STORY_ITEMS.map(
                     (_, index) => iconPathRefs.current[index]?.filter(Boolean) ?? []
                 );
-                const iconPathLengths = iconPathGroups.map(getTotalPathLength);
-                const averageIconPathLength = getAverage(iconPathLengths.filter(Boolean));
                 const genesisPrimaryPath = iconPathGroups[0]?.[0];
 
                 gsap.set(lineSegmentRefs.current.filter(Boolean), {
@@ -113,98 +92,76 @@ function HomeBrandStory() {
                     });
                 });
 
-                const timeline = gsap.timeline({
-                    defaults: { ease: 'none' },
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top bottom',
-                        end: 'bottom 40%',
-                        scrub: true,
-                    },
-                });
+                const setProgressState = (progress) => {
+                    lineSegmentRefs.current.forEach((segment, index) => {
+                        if (!segment) {
+                            return;
+                        }
 
-                BRAND_STORY_LINE_SEGMENTS.forEach((segmentData, index) => {
-                    const segment = lineSegmentRefs.current[index];
-                    const segmentDuration = getBlendedDuration(
-                        TIMING.line.baseDuration,
-                        segmentData.height / averageSegmentHeight,
-                        TIMING.line.blend
-                    );
-
-                    if (segment) {
-                        timeline.to(segment, {
-                            scaleY: 1,
-                            duration: segmentDuration,
-                        });
-                    }
-
-                    const nav = navRefs.current[index];
-                    const content = contentRefs.current[index];
-                    const paths = iconPathGroups[index];
-                    const iconPathLength = iconPathLengths[index];
-
-                    if (!paths?.length || !iconPathLength) {
-                        return;
-                    }
-
-                    const iconDuration = getBlendedDuration(
-                        TIMING.icon.baseDuration,
-                        iconPathLength / averageIconPathLength,
-                        TIMING.icon.blend
-                    );
-
-                    paths.forEach((path, pathIndex) => {
-                        const isGenesisPrimaryPath = index === 0 && pathIndex === 0;
-                        const pathLength = path.getTotalLength();
-                        const pathDuration = iconDuration * (pathLength / iconPathLength);
-
-                        timeline.to(
-                            path,
-                            {
-                                strokeDashoffset: 0,
-                                duration: pathDuration,
-                                ease: 'power2.out',
-                                onStart: () => {
-                                    if (isGenesisPrimaryPath) {
-                                        path.setAttribute('stroke-linecap', 'butt');
-                                    }
-                                },
-                                onComplete: () => {
-                                    if (isGenesisPrimaryPath) {
-                                        path.setAttribute('stroke-linecap', 'round');
-                                    }
-                                },
-                                onReverseStart: () => {
-                                    if (isGenesisPrimaryPath) {
-                                        path.setAttribute('stroke-linecap', 'butt');
-                                    }
-                                },
-                                onReverseComplete: () => {
-                                    if (isGenesisPrimaryPath) {
-                                        path.setAttribute('stroke-linecap', 'butt');
-                                    }
-                                },
-                            },
-                            pathIndex === 0 ? '>' : '<0.08'
+                        const window = BRAND_STORY_DRAW_SEQUENCE.lines[index];
+                        const localProgress = getSoftProgress(
+                            getWindowProgress(progress, window[0], window[1])
                         );
+
+                        gsap.set(segment, { scaleY: localProgress });
                     });
 
-                    timeline.to(
-                        [nav, content].filter(Boolean),
-                        {
-                            opacity: 1,
-                            duration: 0.42,
-                            stagger: 0.08,
-                            ease: 'power2.out',
-                        },
-                        '<0.1'
-                    );
+                    iconPathGroups.forEach((paths, index) => {
+                        const window = BRAND_STORY_DRAW_SEQUENCE.icons[index];
+                        const localProgress = getSoftProgress(
+                            getWindowProgress(progress, window[0], window[1])
+                        );
+
+                        paths.forEach((path, pathIndex) => {
+                            const isGenesisPrimaryPath = index === 0 && pathIndex === 0;
+                            const pathLength = path.getTotalLength();
+
+                            gsap.set(path, {
+                                strokeDashoffset: pathLength * (1 - localProgress),
+                            });
+
+                            if (isGenesisPrimaryPath) {
+                                path.setAttribute(
+                                    'stroke-linecap',
+                                    localProgress >= 1 ? 'round' : 'butt'
+                                );
+                            }
+                        });
+                    });
+
+                    BRAND_STORY_ITEMS.forEach((_, index) => {
+                        const window = BRAND_STORY_DRAW_SEQUENCE.text[index];
+                        const localProgress = getSoftProgress(
+                            getWindowProgress(progress, window[0], window[1])
+                        );
+                        const nav = navRefs.current[index];
+                        const content = contentRefs.current[index];
+
+                        gsap.set([nav, content].filter(Boolean), {
+                            opacity: localProgress,
+                            y: (1 - localProgress) * 20,
+                        });
+                    });
+                };
+
+                setProgressState(0);
+
+                const trigger = ScrollTrigger.create({
+                    trigger: containerRef.current,
+                    start: 'top bottom',
+                    end: 'bottom 40%',
+                    scrub: true,
+                    onUpdate: (self) => {
+                        setProgressState(self.progress);
+                    },
                 });
 
                 return () => {
                     if (genesisPrimaryPath) {
                         genesisPrimaryPath.setAttribute('stroke-linecap', 'round');
                     }
+
+                    trigger.kill();
                 };
             });
 
@@ -244,18 +201,36 @@ function HomeBrandStory() {
                         key={item.id}
                         className={`home__brand-story-block home__brand-story-block--${item.id}`}
                     >
-                        <div
-                            ref={setIndexedRef(navRefs, index)}
-                            className="home__brand-story-nav"
-                        >
-                            {BRAND_STORY_NAV_ITEMS.map((navItem) => (
-                                <span key={navItem} className={navItem === item.label ? 'active' : ''}>
-                                    {navItem}
-                                </span>
-                            ))}
+                        <div className="home__brand-story-info">
+                            <div
+                                ref={setIndexedRef(navRefs, index)}
+                                className="home__brand-story-nav"
+                            >
+                                {BRAND_STORY_NAV_ITEMS.map((navItem) => (
+                                    <span
+                                        key={navItem}
+                                        className={navItem === item.label ? 'active' : ''}
+                                    >
+                                        {navItem}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div
+                                ref={setIndexedRef(contentRefs, index)}
+                                className={`home__brand-story-content home__brand-story-content--${item.id}`}
+                            >
+                                <h3 className="font-serif brand-story-year">{item.heading}</h3>
+                                <h4 className="brand-story-title">
+                                    <BrandStoryTitle segments={item.titleSegments} />
+                                </h4>
+                                <p>{item.description}</p>
+                            </div>
                         </div>
 
-                        <div className={`home__brand-story-icon home__brand-story-icon--${item.id}`}>
+                        <div
+                            className={`home__brand-story-icon home__brand-story-icon--${item.id}`}
+                        >
                             <svg
                                 className={item.svg.className}
                                 width={item.svg.width}
@@ -277,17 +252,6 @@ function HomeBrandStory() {
                                     />
                                 ))}
                             </svg>
-                        </div>
-
-                        <div
-                            ref={setIndexedRef(contentRefs, index)}
-                            className={`home__brand-story-content home__brand-story-content--${item.id}`}
-                        >
-                            <h3 className="font-serif brand-story-year">{item.heading}</h3>
-                            <h4 className="brand-story-title">
-                                <BrandStoryTitle segments={item.titleSegments} />
-                            </h4>
-                            <p>{item.description}</p>
                         </div>
                     </div>
                 ))}

@@ -3,15 +3,30 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { VALUES_LAYOUT, VALUE_ITEMS } from './homeValuesData';
+import {
+    STORY_PROGRESS_BLEND,
+    VALUES_DRAW_SEQUENCE,
+    VALUES_ENTRY_PROGRESS_PORTION,
+} from './homeStoryMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const VALUES_SECTION_HEIGHT = VALUES_LAYOUT.itemHeight * VALUE_ITEMS.length;
 const VALUES_LINE_D = `M${VALUES_LAYOUT.lineX} 0 L${VALUES_LAYOUT.lineX} ${VALUES_LAYOUT.itemHeight}`;
 
+const clamp01 = (value) => Math.max(0, Math.min(1, value));
+const getWindowProgress = (progress, start, end) =>
+    clamp01((progress - start) / Math.max(end - start, 0.0001));
+const easeOutCubic = (value) => 1 - (1 - value) ** 3;
+const getSoftProgress = (value) =>
+    value * (1 - STORY_PROGRESS_BLEND) + easeOutCubic(value) * STORY_PROGRESS_BLEND;
+
 function ValuesCard({ item, className = '', cardRef = null }) {
     return (
-        <div ref={cardRef} className={`home__values-item ${className}`.trim()}>
+        <div
+            ref={cardRef}
+            className={`home__values-item home__values-item--${item.id} ${className}`.trim()}
+        >
             <div className="home__values-image">
                 <img src={item.image} alt={item.alt} />
             </div>
@@ -45,14 +60,7 @@ function HomeValues() {
 
             const path = linePathRef.current;
             const pathLength = path.getTotalLength();
-            const lineEase = gsap.parseEase('power1.inOut');
             const mm = gsap.matchMedia();
-
-            const setLineProgress = (progress) => {
-                gsap.set(path, {
-                    strokeDashoffset: pathLength * (1 - progress),
-                });
-            };
 
             mm.add(`(min-width: ${VALUES_LAYOUT.mobileBreakpoint + 1}px)`, () => {
                 lastIndexRef.current = 0;
@@ -63,10 +71,40 @@ function HomeValues() {
                     strokeDashoffset: pathLength,
                 });
 
-                gsap.set(contentRef.current, {
-                    opacity: 1,
-                    y: 0,
-                });
+                const setValuesState = (progress) => {
+                    let nextIndex = 0;
+
+                    VALUES_DRAW_SEQUENCE.content.forEach((window, index) => {
+                        const localProgress = getWindowProgress(progress, window[0], window[1]);
+
+                        if (localProgress > 0) {
+                            nextIndex = index;
+                        }
+                    });
+
+                    if (nextIndex !== lastIndexRef.current) {
+                        lastIndexRef.current = nextIndex;
+                        setActiveIndex(nextIndex);
+                    }
+
+                    const contentWindow = VALUES_DRAW_SEQUENCE.content[nextIndex];
+                    const lineProgress = getSoftProgress(
+                        getWindowProgress(progress, contentWindow[0], contentWindow[1])
+                    );
+                    const contentProgress = getSoftProgress(
+                        getWindowProgress(progress, contentWindow[0], contentWindow[1])
+                    );
+
+                    gsap.set(path, {
+                        strokeDashoffset: pathLength * (1 - lineProgress),
+                    });
+
+                    gsap.set(contentRef.current, {
+                        y: (1 - contentProgress) * 20,
+                    });
+                };
+
+                setValuesState(0);
 
                 const entryTrigger = ScrollTrigger.create({
                     trigger: sectionRef.current,
@@ -74,12 +112,8 @@ function HomeValues() {
                     end: 'top top',
                     scrub: true,
                     onUpdate: (self) => {
-                        if (lastIndexRef.current !== 0) {
-                            lastIndexRef.current = 0;
-                            setActiveIndex(0);
-                        }
-
-                        setLineProgress(self.progress);
+                        const entryProgress = self.progress * VALUES_ENTRY_PROGRESS_PORTION;
+                        setValuesState(entryProgress);
                     },
                 });
 
@@ -88,52 +122,13 @@ function HomeValues() {
                     start: 'top top',
                     end: `+=${VALUES_LAYOUT.itemHeight * (VALUE_ITEMS.length - 1)}`,
                     pin: viewportRef.current,
-                    // 섹션 높이에서 이미 스크롤 길이를 확보해 둔 상태라 추가 spacer는 필요 없습니다.
                     pinSpacing: false,
                     scrub: true,
                     onUpdate: (self) => {
-                        if (self.progress <= 0) {
-                            if (lastIndexRef.current !== 0) {
-                                lastIndexRef.current = 0;
-                                setActiveIndex(0);
-                            }
-
-                            setLineProgress(0);
-                            return;
-                        }
-
-                        const totalProgress = Math.min(
-                            VALUE_ITEMS.length - 1.0001,
-                            self.progress * (VALUE_ITEMS.length - 1)
-                        );
-                        const nextIndex = Math.min(
-                            VALUE_ITEMS.length - 1,
-                            Math.floor(totalProgress) + 1
-                        );
-                        const stageProgress = totalProgress - Math.floor(totalProgress);
-                        const blendedProgress =
-                            stageProgress * (1 - VALUES_LAYOUT.lineBlend) +
-                            lineEase(stageProgress) * VALUES_LAYOUT.lineBlend;
-
-                        setLineProgress(blendedProgress);
-
-                        if (nextIndex !== lastIndexRef.current) {
-                            lastIndexRef.current = nextIndex;
-
-                            gsap.fromTo(
-                                contentRef.current,
-                                { opacity: 0, y: 20 },
-                                {
-                                    opacity: 1,
-                                    y: 0,
-                                    duration: 0.3,
-                                    ease: 'power2.out',
-                                    overwrite: 'auto',
-                                }
-                            );
-
-                            setActiveIndex(nextIndex);
-                        }
+                        const mainProgress =
+                            VALUES_ENTRY_PROGRESS_PORTION +
+                            self.progress * (1 - VALUES_ENTRY_PROGRESS_PORTION);
+                        setValuesState(mainProgress);
                     },
                 });
 

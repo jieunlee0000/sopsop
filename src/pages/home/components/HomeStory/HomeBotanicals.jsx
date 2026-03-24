@@ -5,7 +5,6 @@ import {
     BASE_HEIGHT,
     BOTTLE_CLIP_PATH,
     BOTTLE_OUTLINE_PATH,
-    DRAW_SEQUENCE,
     ENTRY_START_VIEWPORT_RATIO,
     FLOW_LINES,
     GUIDE_LINE_X,
@@ -32,6 +31,11 @@ import {
     START_PATH_D,
     TARGET_VISIBLE_WIDTH,
 } from './homeBotanicalsData';
+import {
+    BOTANICALS_DRAW_SEQUENCE,
+    BOTANICALS_ENTRY_PROGRESS_PORTION,
+    STORY_PROGRESS_BLEND,
+} from './homeStoryMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -163,9 +167,13 @@ function getWindowProgress(progress, start, end) {
     return clamp01((progress - start) / Math.max(end - start, 0.0001));
 }
 
+function getSoftProgress(value) {
+    return value * (1 - STORY_PROGRESS_BLEND) + easeOutCubic(value) * STORY_PROGRESS_BLEND;
+}
+
 function getSegmentDrawStyle(progress, window, length) {
     const localProgress = getWindowProgress(progress, window[0], window[1]);
-    const easedProgress = easeOutCubic(localProgress);
+    const easedProgress = getSoftProgress(localProgress);
 
     return {
         strokeDasharray: length,
@@ -219,7 +227,7 @@ function getMotionQuoteLetters(letters, progress) {
     }
 
     const { path, totalLength } = metrics;
-    const motionProgress = easeOutCubic(clamp01(progress + QUOTE_PROGRESS_OFFSET));
+    const motionProgress = getSoftProgress(clamp01(progress + QUOTE_PROGRESS_OFFSET));
     const trailingLetter = letters[letters.length - 1];
     const trailingLength = trailingLetter ? trailingLetter.finalLength : 0;
 
@@ -242,16 +250,24 @@ function getMotionQuoteLetters(letters, progress) {
 
 function getIngredientStyles(progress) {
     return INGREDIENTS.map((ingredient, index) => {
-        const localProgress = easeOutCubic(
+        const localProgress = getSoftProgress(
             getWindowProgress(
                 progress,
-                DRAW_SEQUENCE.ingredients[index][0],
-                DRAW_SEQUENCE.ingredients[index][1]
+                BOTANICALS_DRAW_SEQUENCE.ingredients[index][0],
+                BOTANICALS_DRAW_SEQUENCE.ingredients[index][1]
             )
         );
+        const labelX = ingredient.anchorX + ingredient.labelOffsetX;
+        const labelY = ingredient.anchorY + ingredient.labelOffsetY;
+        const thumbX = ingredient.anchorX + ingredient.thumbOffsetX;
+        const thumbY = ingredient.anchorY + ingredient.thumbOffsetY;
 
         return {
             ...ingredient,
+            labelX,
+            labelY,
+            thumbX,
+            thumbY,
             opacity: localProgress,
             translateY: (1 - localProgress) * 32,
             scale: 0.86 + localProgress * 0.14,
@@ -265,7 +281,7 @@ function HomeBotanicals() {
     const [sectionHeight, setSectionHeight] = useState(BASE_HEIGHT);
     const [animationScrollDistance, setAnimationScrollDistance] = useState(BASE_HEIGHT);
     const [horizontalOffset, setHorizontalOffset] = useState(0);
-    const [entryProgress, setEntryProgress] = useState(0);
+    const [sectionProgress, setSectionProgress] = useState(0);
     const [quoteLetters, setQuoteLetters] = useState([]);
     const [quoteProgress, setQuoteProgress] = useState(0);
     const sectionRef = useRef(null);
@@ -356,8 +372,11 @@ function HomeBotanicals() {
                 (mainProgress - HORIZONTAL_SCROLL_START) /
                 Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01)
             );
+            const sectionProgress =
+                entryProgress * BOTANICALS_ENTRY_PROGRESS_PORTION +
+                mainProgress * (1 - BOTANICALS_ENTRY_PROGRESS_PORTION);
 
-            setEntryProgress(entryProgress);
+            setSectionProgress(sectionProgress);
             setQuoteProgress(mainProgress);
             setHorizontalOffset(maxHorizontalOffset * horizontalProgress);
         };
@@ -408,26 +427,34 @@ function HomeBotanicals() {
 
     const motionQuoteLetters = getMotionQuoteLetters(quoteLetters, quoteProgress);
     const startLineStyle = getSegmentDrawStyle(
-        entryProgress,
-        DRAW_SEQUENCE.start,
+        sectionProgress,
+        BOTANICALS_DRAW_SEQUENCE.start,
         PATH_LENGTHS.start
     );
-    const flowLineStyles = FLOW_LINES.map((_, index) =>
-        getSegmentDrawStyle(quoteProgress, DRAW_SEQUENCE.branches[index], PATH_LENGTHS.branches[index])
+    const flowLineStyles = FLOW_LINES.map((line, index) =>
+        getSegmentDrawStyle(
+            sectionProgress,
+            BOTANICALS_DRAW_SEQUENCE.branches[line.id],
+            PATH_LENGTHS.branches[index]
+        )
     );
     const mergeLineStyle = getSegmentDrawStyle(
-        quoteProgress,
-        DRAW_SEQUENCE.merge,
+        sectionProgress,
+        BOTANICALS_DRAW_SEQUENCE.merge,
         PATH_LENGTHS.merge
     );
     const outlineLineStyle = getSegmentDrawStyle(
-        quoteProgress,
-        DRAW_SEQUENCE.outline,
+        sectionProgress,
+        BOTANICALS_DRAW_SEQUENCE.outline,
         PATH_LENGTHS.outline
     );
-    const ingredientStyles = getIngredientStyles(quoteProgress);
-    const productRevealProgress = easeOutCubic(
-        getWindowProgress(quoteProgress, DRAW_SEQUENCE.product[0], DRAW_SEQUENCE.product[1])
+    const ingredientStyles = getIngredientStyles(sectionProgress);
+    const productRevealProgress = getSoftProgress(
+        getWindowProgress(
+            sectionProgress,
+            BOTANICALS_DRAW_SEQUENCE.product[0],
+            BOTANICALS_DRAW_SEQUENCE.product[1]
+        )
     );
 
     return (
@@ -468,12 +495,6 @@ function HomeBotanicals() {
                                         </clipPath>
                                     </defs>
 
-                                    <path
-                                        className="botanical-flow__line botanical-flow__line--start"
-                                        d={START_PATH_D}
-                                        style={startLineStyle}
-                                    />
-
                                     {FLOW_LINES.map((line, index) => (
                                         <path
                                             key={line.id}
@@ -482,6 +503,12 @@ function HomeBotanicals() {
                                             style={flowLineStyles[index]}
                                         />
                                     ))}
+
+                                    <path
+                                        className="botanical-flow__line botanical-flow__line--start"
+                                        d={START_PATH_D}
+                                        style={startLineStyle}
+                                    />
 
                                     <path
                                         className="botanical-flow__line botanical-flow__line--merge"

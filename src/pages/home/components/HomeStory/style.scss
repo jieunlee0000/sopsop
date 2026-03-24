@@ -72,12 +72,34 @@
             align-items: flex-start;
         }
 
-        .home__brand-story-nav {
+        .home__brand-story-info {
+            --content-left-base: 772px;
             position: absolute;
-            left: 156px;
             top: 50%;
+            left: 156px;
+            right: 0;
             transform: translateY(-50%);
-            width: max-content;
+            display: flex;
+            align-items: center;
+            gap: calc(var(--content-left-base) - 156px);
+            z-index: 3;
+
+            @include mobile {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                transform: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                order: 2;
+            }
+        }
+
+        .home__brand-story-nav {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -139,7 +161,7 @@
                 transform: none;
                 background: transparent;
                 padding: 0;
-                margin-bottom: 20px;
+                margin-bottom: 30px;
 
                 .brand-story-path-align--genesis,
                 .brand-story-path-align--heritage,
@@ -151,29 +173,24 @@
         }
 
         .home__brand-story-content {
-            --content-left-base: 772px;
-            position: absolute;
-            top: 50%;
-            left: var(--content-left-base);
-            transform: translateY(-50%);
+            position: relative;
             width: min(780px, calc(100% - 980px));
             display: flex;
             flex-direction: column;
-            z-index: 3;
 
             @include mobile {
                 position: relative;
-                top: auto;
-                transform: none;
                 width: 100%;
                 padding-left: 0;
             }
 
             .brand-story-year {
+                color: rgba($color-brown-500, 0.14);
                 font-family: 'Ogg', serif;
                 font-size: clamp(60px, 10vw, 150px);
-                color: rgba($color-brown-500, 0.14);
-                margin-bottom: -0.2em;
+                font-weight: 400;
+                // 디자인 간격을 위해 line-height값 1.5에서 조정
+                line-height: 0.85;
 
                 @include mobile {
                     font-size: 60px;
@@ -182,15 +199,18 @@
             }
 
             .brand-story-title {
-                font-size: clamp(20px, 2.5vw, 32px);
-                font-weight: 400;
                 color: $color-brown-500;
-                margin-bottom: 20px;
+                font-family: 'Pretendard', sans-serif;
+                font-size: clamp(20px, 2.5vw, 32px);
+                font-weight: 300;
+                line-height: 1.5;
+                letter-spacing: -0.64px;
+                // 디자인 간격을 위해 20px에서 수정
+                margin-bottom: 30px;
                 word-break: keep-all;
-                letter-spacing: -0.32px;
 
                 strong {
-                    font-weight: 700;
+                    font-weight: 600;
                 }
 
                 @include mobile {
@@ -199,24 +219,28 @@
             }
 
             p {
-                font-size: clamp(14px, 1.2vw, 16px);
                 color: $color-brown-300;
+                font-family: 'Pretendard', sans-serif;
+                font-size: clamp(14px, 1.2vw, 16px);
+                font-weight: 400;
+                line-height: 1.5;
                 letter-spacing: -0.32px;
-                max-width: 480px;
+                max-width: 662px;
+                white-space: pre-line;
             }
         }
     }
 
     &__brand-story-content--genesis {
-        left: calc(var(--content-left-base) + 8px);
+        margin-left: 8px;
     }
 
     &__brand-story-content--heritage {
-        left: calc(var(--content-left-base) - 5px);
+        margin-left: -5px;
     }
 
     &__brand-story-content--presence {
-        left: var(--content-left-base);
+        margin-left: 0;
     }
 }
 
@@ -329,7 +353,6 @@
                     height: 200px;
                 }
             }
-
         }
 
         .home__values-content {
@@ -337,27 +360,42 @@
             flex: 1;
 
             h3 {
-                font-size: 78px;
                 color: $color-brown-700;
-                margin-bottom: 15px;
                 font-family: 'Ogg', serif;
+                font-size: 70px;
+                font-weight: 400;
                 line-height: 0.95;
+                // 디자인을 위해 8에서 4로 수정
+                margin-bottom: 4px;
             }
 
             h4 {
-                font-size: 28px;
                 color: $color-brown-500;
+                font-family: 'Pretendard', sans-serif;
+                font-size: 28px;
+                font-weight: 400;
                 line-height: 1.2;
-                margin-bottom: 20px;
-                letter-spacing: -0.36px;
+                letter-spacing: -0.56px;
+                margin-bottom: 30px;
             }
 
             p {
-                font-size: 18px;
                 color: $color-brown-200;
-                max-width: 600px;
+                font-family: 'Pretendard', sans-serif;
+                font-size: 18px;
+                // 디자인 굵기 조정을 위해 400에서 300으로 수정
+                font-weight: 300;
+                line-height: 1.5;
                 letter-spacing: -0.36px;
+                // max-width: 600px;
+                white-space: pre-line;
             }
+        }
+    }
+    // 디자인을 위해 3번째 아이템에 따로 margin-bottom 값 설정
+    &__values-item--inspiring-rituals {
+        .home__values-content h3 {
+            margin-bottom: 8px;
         }
     }
 
@@ -700,7 +738,6 @@
         will-change: transform;
         z-index: 1;
     }
-
 
     &__botanicals-horizontal,
     &__botanicals-canvas {
