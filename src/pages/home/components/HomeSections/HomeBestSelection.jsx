@@ -30,10 +30,9 @@ function HomeBestSelection() {
                         <img src="images/bests.png" alt="Aesop Best Selection Bottles" />
                     </div>
                     <div className="home__best-content">
-                        <h3 className="font-serif">
-                            The Aesop
-                            <br />
-                            <span>Best Selection</span>
+                        <h3>
+                            <span className="home__best-kicker">The Aesop</span>
+                            <span className="home__best-title">Best Selection</span>
                         </h3>
                         <p>
                             유행을 타지 않는 에이솝의 철학과 피부 과학이 만나 탄생한 시대를 초월하여

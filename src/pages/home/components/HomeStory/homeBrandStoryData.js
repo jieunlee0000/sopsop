@@ -1,4 +1,4 @@
-export const BRAND_STORY_NAV_ITEMS = ['Genesis', 'Heritage', 'Presence'];
+﻿export const BRAND_STORY_NAV_ITEMS = ['Genesis', 'Heritage', 'Presence'];
 
 export const BRAND_STORY_LINE_SEGMENTS = [
     { top: 0, height: 305 },
@@ -18,7 +18,7 @@ export const BRAND_STORY_ITEMS = [
             { text: '에 주목' },
         ],
         description:
-            'Founded in Melbourne, Aesop evolved from a hair salon into a botanical skincare icon, driven by a desire to trade harsh chemicals for natural purity.',
+            'Founded in Melbourne, Aesop evolved from a hair salon into a botanical skincare icon, driven by \n a desire to trade harsh chemicals for natural purity.',
         svg: {
             width: 184,
             height: 292,
@@ -37,11 +37,12 @@ export const BRAND_STORY_ITEMS = [
         label: 'Heritage',
         heading: 'Fables',
         titleSegments: [
-            { text: '우화 작가 이솝(Aesop)의 이름에서 비롯된 ' },
+            { text: '우화 작가 이솝(Aesop)', strong: true },
+            { text: '의 이름에서 비롯된 ' },
             { text: '깊은 철학', strong: true },
         ],
         description:
-            'Named after the Greek fabulist Aesop, we embody the wisdom of a fable. Our philosophy seeks to deliver profound resonance through minimalist simplicity.',
+            'Named after the Greek fabulist Aesop, we embody the wisdom of a fable. \n Our philosophy seeks to deliver profound resonance through minimalist simplicity.',
         svg: {
             width: 329,
             height: 169,
@@ -67,7 +68,7 @@ export const BRAND_STORY_ITEMS = [
             { text: '인 이솝의 공간들' },
         ],
         description:
-            'For 30 years, Aesop has curated unique spaces that honor local heritage. As a result, no two Aesop stores are alike anywhere in the world.',
+            'For 30 years, Aesop has curated unique spaces that honor local heritage. \n As a result, no two Aesop stores are alike anywhere in the world.',
         svg: {
             width: 218,
             height: 205,

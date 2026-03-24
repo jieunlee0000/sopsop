@@ -3,9 +3,25 @@
 .home {
     &__hero {
         --hero-text-travel: clamp(48px, 12.76vw, 245px);
-        --hero-title-height: clamp(108px, 12vw, 240px);
-        --hero-text-size: clamp(2rem, 9.375vw, 11.25rem);
-        --hero-subtext-width: min(507px, max(180px, calc(50vw - 48px)));
+        --hero-text-size: clamp(72px, 9.375vw, 180px);
+        --hero-title-top: clamp(180px, 34.473vh, 353px);
+        --hero-title-bottom: clamp(180px, 34.863vh, 357px);
+        --hero-text-left-offset: clamp(48px, 11.302vw, 217px);
+        --hero-text-right-offset: clamp(48px, 11.927vw, 229px);
+        --hero-outline-draw-duration: 0.5s;
+        --hero-outline-draw-ease: cubic-bezier(0.62, 0.05, 0.26, 1);
+        --hero-outline-flash-duration: 0.4s;
+        --hero-outline-flash-delay: 0.55s;
+        --hero-outline-fade-duration: 0.3s;
+        --hero-outline-fade-delay: 0.75s;
+        --hero-bottle-reveal-duration: 0.7s;
+        --hero-bottle-reveal-delay: 0.7s;
+        --hero-bottle-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --hero-overlay-fade-duration: 0.8s;
+        --hero-overlay-fade-delay: 1.6s;
+        --hero-text-reveal-duration: 0.8s;
+        --hero-text-reveal-delay: 0.85s;
+        --hero-text-reveal-ease: ease;
 
         position: relative;
         width: 100%;
@@ -23,30 +39,33 @@
 
         &.is-ready {
             .home__hero-overlay {
-                animation: homeHeroOverlayFadeOut 0.8s ease forwards;
-                animation-delay: 1.6s;
+                animation: homeHeroOverlayFadeOut var(--hero-overlay-fade-duration) ease forwards;
+                animation-delay: var(--hero-overlay-fade-delay);
             }
 
             .home__hero-outline--base {
                 opacity: 1;
                 visibility: visible;
-                transition: stroke-dashoffset 1s cubic-bezier(0.62, 0.05, 0.26, 1);
+                transition: stroke-dashoffset var(--hero-outline-draw-duration)
+                    var(--hero-outline-draw-ease);
                 stroke-dashoffset: 0 !important;
-                animation: homeHeroOutlineFadeAway 0.3s linear forwards;
-                animation-delay: 1.25s;
+                animation: homeHeroOutlineFadeAway var(--hero-outline-fade-duration) linear forwards;
+                animation-delay: var(--hero-outline-fade-delay);
             }
 
             .home__hero-outline--glow {
                 visibility: visible;
                 animation:
-                    homeHeroDrawPath 1s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
-                    homeHeroOutlineFlash 0.4s ease-out 1 forwards;
-                animation-delay: 0s, 1.05s;
+                    homeHeroDrawPath var(--hero-outline-draw-duration) var(--hero-outline-draw-ease)
+                        forwards,
+                    homeHeroOutlineFlash var(--hero-outline-flash-duration) ease-out 1 forwards;
+                animation-delay: 0s, var(--hero-outline-flash-delay);
             }
 
             .home__hero-bottle-image {
-                animation: homeHeroBottleReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-                animation-delay: 1.2s;
+                animation: homeHeroBottleReveal var(--hero-bottle-reveal-duration)
+                    var(--hero-bottle-reveal-ease) forwards;
+                animation-delay: var(--hero-bottle-reveal-delay);
             }
 
             .home__hero-text {
@@ -54,13 +73,15 @@
             }
 
             .home__hero-text--left {
-                animation: homeHeroTextLeftIn 0.8s ease forwards;
-                animation-delay: 1.35s;
+                animation: homeHeroTextLeftIn var(--hero-text-reveal-duration)
+                    var(--hero-text-reveal-ease) forwards;
+                animation-delay: var(--hero-text-reveal-delay);
             }
 
             .home__hero-text--right {
-                animation: homeHeroTextRightIn 0.8s ease forwards;
-                animation-delay: 1.35s;
+                animation: homeHeroTextRightIn var(--hero-text-reveal-duration)
+                    var(--hero-text-reveal-ease) forwards;
+                animation-delay: var(--hero-text-reveal-delay);
             }
         }
     }
@@ -130,67 +151,51 @@
 
     &__hero-title-container {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: var(--hero-title-top);
+        bottom: var(--hero-title-bottom);
+        left: 0;
+        right: 0;
         z-index: 3;
-        width: 100%;
-        height: var(--hero-title-height);
-        transform: translate(-50%, -50%);
         pointer-events: none;
-    }
-
-    &__hero-heading {
-        position: relative;
-        width: 100%;
-        height: 100%;
         margin: 0;
-        color: #f5ede5;
-        text-shadow: 0 2px 18px rgba(10, 8, 7, 0.22);
     }
 
     &__hero-text {
         position: absolute;
         top: 50%;
+        transform: translateY(-50%);
+        color: $color-yellow-50;
         font-family: 'Ogg', serif;
         font-size: var(--hero-text-size);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-        color: $color-yellow-50;
-        white-space: nowrap;
-        opacity: 0;
+        font-weight: 400;
+        // line-heigh 디자인 값 1.5에서 간격이 너무 벌어지는 문제로 인해 1.3으로 조정
+        line-height: 1.3;
         visibility: hidden;
-        will-change: transform, opacity;
-        transform: translateY(-50%);
+        opacity: 0;
 
         &--left {
-            right: 50%;
+            left: var(--hero-text-left-offset);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-            max-width: min(100%, 26rem);
         }
 
         &--right {
-            left: 50%;
+            right: var(--hero-text-right-offset);
             text-align: left;
         }
     }
 
     &__hero-subtext {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: var(--hero-subtext-width);
-        margin-top: clamp(0.9rem, 2vw, 2rem);
-        color: #e6e2e0;
+        display: block;
+        margin-top: 0;
+        width: clamp(280px, 25vw, 480px);
+        color: $color-yellow-600;
         font-family: 'Pretendard', sans-serif;
-        font-size: clamp(14px, 0.75rem + 0.3vw, 16px);
+        font-size: clamp(14px, 0.833vw, 16px);
+        // font-weight 디자인 값 400에서 굵기로 인해 300으로 조정
+        font-weight: 300;
         line-height: 1.3;
-        letter-spacing: -0.352px;
-        text-align: left;
-        opacity: 0.95;
-        white-space: normal;
+        letter-spacing: 0.096px;
         word-break: keep-all;
     }
 }
@@ -253,24 +258,24 @@
 @keyframes homeHeroTextLeftIn {
     from {
         opacity: 0;
-        transform: translateY(-50%) translateX(0);
+        transform: translateY(-50%) translateX(var(--hero-text-travel));
     }
 
     to {
         opacity: 1;
-        transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
+        transform: translateY(-50%) translateX(0);
     }
 }
 
 @keyframes homeHeroTextRightIn {
     from {
         opacity: 0;
-        transform: translateY(-50%) translateX(0);
+        transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
     }
 
     to {
         opacity: 1;
-        transform: translateY(-50%) translateX(var(--hero-text-travel));
+        transform: translateY(-50%) translateX(0);
     }
 }
 
@@ -293,7 +298,6 @@
         }
 
         &__hero-subtext {
-            margin-top: 0.7rem;
             line-height: 1.4;
         }
     }
@@ -325,11 +329,11 @@
         }
 
         &__hero-text--left {
-            transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
+            transform: translateY(-50%) translateX(0);
         }
 
         &__hero-text--right {
-            transform: translateY(-50%) translateX(var(--hero-text-travel));
+            transform: translateY(-50%) translateX(0);
         }
 
         &__hero-outline--base,

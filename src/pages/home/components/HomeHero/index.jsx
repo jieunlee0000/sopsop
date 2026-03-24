@@ -57,17 +57,15 @@ function HomeHero() {
             <div className="home__hero-overlay" aria-hidden="true" />
 
             <div className="home__hero-title-container">
-                <h2 className="home__hero-heading font-serif">
-                    <span className="home__hero-text home__hero-text--left">
-                        Aesop
-                        <span className="home__hero-subtext">
-                            From humble botanical beginnings,
-                            <br />
-                            Aesop has shaped a philosophy of thoughtful and purposeful care.
-                        </span>
+                <span className="home__hero-text home__hero-text--left">
+                    Aesop
+                    <span className="home__hero-subtext">
+                        From humble botanical beginnings,
+                        <br />
+                        Aesop has shaped a philosophy of thoughtful and purposeful care.
                     </span>
-                    <span className="home__hero-text home__hero-text--right">Origin</span>
-                </h2>
+                </span>
+                <span className="home__hero-text home__hero-text--right">Origin</span>
             </div>
 
             <svg
