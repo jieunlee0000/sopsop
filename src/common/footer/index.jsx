@@ -63,7 +63,11 @@ const Footer = () => {
                 </div>
 
                 {/* 구분선 */}
-                <div className="footer_line"></div>
+            </div>
+
+            <div className="footer_line"></div>
+
+            <div className="footer_inner">
 
                 {/* 로고 */}
                 <div className="footer_logo">
