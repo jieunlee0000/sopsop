@@ -1,0 +1,153 @@
+.philosophy {
+  margin-top: 200px;
+  position: relative;
+  z-index: 1;
+  background: #fdfbf2;
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 70vh;
+    padding: 80px 0 150px 350px;
+    overflow: hidden;
+  }
+
+  // 큰 장식 글자
+  &__letter {
+    font-family: "Ogg", serif;
+    font-size: 420px;
+    color: #603b2d;
+    flex: 0 0 auto;
+    line-height: 0.85;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  // 텍스트 박스 — 글자 절반 위에 겹침
+  &__content {
+    flex: 0 0 46%;
+    padding: 80px 0 80px 60px;
+    border-left: 1px solid #d4c5b9;
+    background: #fdfbf2;
+    position: relative;
+    z-index: 2;
+    margin-left: -80px;
+  }
+
+  // 아이템별 수평 위치 (글자+텍스트박스 함께 이동)
+  &__item:nth-child(1) {
+    padding-left: 260px;
+  }
+  &__item:nth-child(2) {
+    padding-left: 800px;
+  }
+  &__item:nth-child(3) {
+    padding-left: 500px;
+  }
+  &__item:nth-child(4) {
+    padding-left: 250px;
+  }
+  &__item:nth-child(5) {
+    padding-left: 800px;
+  }
+
+  // 아이템별 텍스트박스 겹침 위치 (A 제외)
+  &__item:nth-child(2) &__content {
+    margin-left: -40px;
+    flex: 0 0 620px;
+  }
+  &__item:nth-child(3) &__content {
+    margin-left: -30px;
+  }
+  &__item:nth-child(4) &__content {
+    margin-left: -45px;
+  }
+  &__item:nth-child(5) &__content {
+    margin-left: -40px;
+    flex: 0 0 620px;
+  }
+
+  &__label {
+    display: block;
+    font-size: 24px;
+    color: #603b2d;
+    font-style: italic;
+    font-family: "Bona Nova";
+  }
+
+  &__title {
+    font-family: "Bona Nova";
+    font-size: 75px;
+    color: #603b2d;
+    margin-bottom: 16px;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: 20px;
+    color: #603b2d;
+    opacity: 0.7;
+    word-break: keep-all;
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  // ── Tablet ──────────────────────────────
+  @media (max-width: 1024px) {
+    &__item {
+      min-height: 55vh;
+      padding: 60px 80px;
+    }
+
+    &__letter {
+      font-size: clamp(9rem, 20vw, 18rem);
+      flex: 0 0 55%;
+    }
+
+    &__content {
+      flex: 0 0 50%;
+      margin-left: -18%;
+    }
+
+    &__item--reverse .philosophy__content {
+      margin-right: -18%;
+    }
+  }
+
+  // ── Mobile ──────────────────────────────
+  @media (max-width: 768px) {
+    &__item {
+      flex-direction: column !important;
+      min-height: auto;
+      padding: 60px 24px 48px; // 모바일은 24px
+      gap: 0;
+    }
+
+    &__letter {
+      font-size: clamp(7rem, 28vw, 10rem);
+      flex: 0 0 auto;
+      line-height: 1;
+      align-self: flex-start;
+    }
+
+    &__content {
+      flex: 0 0 auto;
+      width: 100%;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding: 20px 0 0;
+      border-left: none !important;
+      border-right: none !important;
+      border-top: 1px solid #d4c5b9;
+      background: transparent;
+      text-align: left !important;
+    }
+
+    &__desc {
+      max-width: 100%;
+      margin-left: 0 !important;
+    }
+  }
+}
