@@ -660,7 +660,7 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            left: 552px;
+            left: var(--botanicals-guide-line-x, 552px);
             width: 2px;
             background: rgba($color-brown-900, 0.4);
             pointer-events: none;

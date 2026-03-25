@@ -29,9 +29,11 @@ export const VALUES_DRAW_SEQUENCE = {
 };
 
 export const VALUES_ENTRY_PROGRESS_PORTION = 0.18;
+// export const BOTANICALS_ENTRY_PROGRESS_PORTION = 0.12;
 export const BOTANICALS_ENTRY_PROGRESS_PORTION = 0;
 
 export const BOTANICALS_DRAW_SEQUENCE = {
+    // start: [0.01, 0.16],
     start: [0.0, 0.08],
     branches: {
         // 'line-top': [0.12, 0.38],
@@ -53,5 +55,5 @@ export const BOTANICALS_DRAW_SEQUENCE = {
     ],
     merge: [0.56, 0.72],
     outline: [0.74, 0.84],
-    product: [0.85, 0.94],
+    product: [0.84, 0.94],
 };

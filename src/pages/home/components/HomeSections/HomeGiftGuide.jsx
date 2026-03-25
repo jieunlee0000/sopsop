@@ -75,9 +75,10 @@ function HomeGiftGuide() {
                 {/* Background line artwork */}
                 <div className="home__gift-bg">
                     <svg viewBox="0 0 1440 1200" fill="none" preserveAspectRatio="none">
-                        <path d="M 0 200 Q 360 100 720 200 T 1440 200" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
-                        <path d="M 0 600 Q 360 700 720 600 T 1440 600" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
-                        <path d="M 0 1000 Q 360 900 720 1000 T 1440 1000" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        <path d="M 0 150 Q 360 50 720 150 T 1440 150" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        {/* <path d="M 0 550 Q 360 450 720 550 T 1440 550" stroke="#603b2d" strokeWidth="1" opacity="0.6" /> */}
+                        <path d="M 0 550 Q 360 650 720 550 T 1440 550" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        <path d="M 0 930 Q 360 830 720 930 T 1440 930" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
                     </svg>
                 </div>
 

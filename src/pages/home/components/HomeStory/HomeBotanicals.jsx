@@ -7,6 +7,7 @@ import {
     BOTTLE_OUTLINE_PATH,
     ENTRY_START_VIEWPORT_RATIO,
     FLOW_LINES,
+    GUIDE_LINE_X,
     HORIZONTAL_SCROLL_END,
     HORIZONTAL_SCROLL_START,
     HORIZONTAL_WIDTH,
@@ -58,6 +59,7 @@ const PATH_LENGTHS = {
     branches: FLOW_LINES.map((line) => getPathLength(line.d)),
     merge: getPathLength(MERGE_PATH_D),
     outline: getPathLength(BOTTLE_OUTLINE_PATH),
+    quoteFlow: getPathLength(QUOTE_FLOW_PATH_D),
 };
 
 const BOTANICALS_PRE_HORIZONTAL_HOLD_RATIO = 0.22;
@@ -102,6 +104,18 @@ function getViewportSize() {
     };
 }
 
+function getResponsiveGuideLineX(viewportWidth) {
+    if (viewportWidth <= 1023) {
+        return 220;
+    }
+
+    if (viewportWidth <= 1600) {
+        return 320;
+    }
+
+    return GUIDE_LINE_X;
+}
+
 function getWindowProgress(progress, start, end) {
     return clamp01((progress - start) / Math.max(end - start, 0.0001));
 }
@@ -139,19 +153,23 @@ function lerp(start, end, progress) {
 }
 
 function getCameraMetrics(scale, viewportWidth, viewportHeight) {
+    const guideLineOffsetX = getResponsiveGuideLineX(viewportWidth) - GUIDE_LINE_X;
     const visibleWorldWidth = viewportWidth / Math.max(scale, 0.001);
     const visibleWorldHeight = viewportHeight / Math.max(scale, 0.001);
     const leadInWorld = BOTANICALS_HORIZONTAL_LEAD_IN / Math.max(scale, 0.001);
     const maxCameraX = Math.max(
         HORIZONTAL_WIDTH -
-            visibleWorldWidth +
-            leadInWorld +
-            BOTANICALS_HORIZONTAL_OVERSCAN / Math.max(scale, 0.001),
+        GUIDE_LINE_X +
+        getResponsiveGuideLineX(viewportWidth) -
+        visibleWorldWidth +
+        leadInWorld +
+        BOTANICALS_HORIZONTAL_OVERSCAN / Math.max(scale, 0.001),
         0
     );
     const maxCameraY = Math.max(BASE_HEIGHT - visibleWorldHeight, 0);
 
     return {
+        guideLineOffsetX,
         maxCameraX,
         maxCameraY,
         cameraXStart: 0,
@@ -170,11 +188,14 @@ function getQuoteStartOffset(progress) {
     const endLength = totalLength * QUOTE_END_RATIO;
     const travelLength = Math.max(endLength - startLength, 1);
     const motionProgress = getSoftProgress(clamp01(progress + QUOTE_PROGRESS_OFFSET)) ** 1.35;
-    const entryOffset = travelLength * 0.12;
-    const currentOffset = startLength - entryOffset + (travelLength + entryOffset) * motionProgress;
+    const initialOffset = -3550;
+    const currentOffset = Math.min(initialOffset + (endLength - initialOffset) * motionProgress, 1900);
 
     return `${currentOffset}px`;
 }
+
+// Quote flow path draw window — aligned with start + early branches
+const QUOTE_DRAW_WINDOW = [0.0, 0.42];
 
 function getIngredientStyles(progress) {
     return INGREDIENTS.map((ingredient, index) => {
@@ -251,10 +272,10 @@ function HomeBotanicals() {
             setAnimationScrollDistance(totalScrollDistance);
             setSectionHeight(
                 viewportHeight +
-                    preHorizontalHoldDistance +
-                    totalScrollDistance +
-                    exitBuffer +
-                    bottomBuffer
+                preHorizontalHoldDistance +
+                totalScrollDistance +
+                exitBuffer +
+                bottomBuffer
             );
         };
 
@@ -343,6 +364,7 @@ function HomeBotanicals() {
     const quoteStartOffset = getQuoteStartOffset(quoteProgress);
     const screenAlignedStrokeWidth = 2 / Math.max(stageScale, 0.001);
     const {
+        guideLineOffsetX,
         maxCameraX,
         maxCameraY,
         cameraXStart,
@@ -390,6 +412,30 @@ function HomeBotanicals() {
             BOTANICALS_DRAW_SEQUENCE.product[1]
         )
     );
+    const outlineFadeProgress = 1 - productRevealProgress;
+    
+    // 1. 선(가지, 머지선 등)이 먼저(0.88 ~ 0.94) 사라지도록 처리
+    const linesFadeOutProgress = getSoftProgress(
+        getWindowProgress(sectionProgress, 0.88, 0.94)
+    );
+    const linesOpacity = 1 - linesFadeOutProgress;
+
+    // 2. 병(Bottle)은 선이 사라진 뒤 좀 더 오래 남았다가 천천히(0.93 ~ 1.0) 사라짐
+    const productFadeOutProgress = getSoftProgress(
+        getWindowProgress(sectionProgress, 0.93, 1.0)
+    );
+    const finalProductOpacity = productRevealProgress * (1 - productFadeOutProgress);
+    // 병이 사라질 때 아래로 짓누르듯 미끄러져 내려가게 하여 다음 섹션 1번 아이템과 겹치도록 유도!
+    const productDropOffset = productFadeOutProgress * 250;
+
+    const quoteFlowLineStyle = getSegmentDrawStyle(
+        sectionProgress,
+        QUOTE_DRAW_WINDOW,
+        PATH_LENGTHS.quoteFlow
+    );
+    const quoteTextOpacity = getSoftProgress(
+        getWindowProgress(sectionProgress, QUOTE_DRAW_WINDOW[0], QUOTE_DRAW_WINDOW[0] + 0.05)
+    );
 
     return (
         <section
@@ -397,6 +443,7 @@ function HomeBotanicals() {
             className="home__botanicals"
             style={{
                 height: viewportSize.width <= 600 ? 'auto' : `${sectionHeight}px`,
+                '--botanicals-guide-line-x': `${getResponsiveGuideLineX(viewportSize.width)}px`,
                 '--botanicals-viewport-width': `${BOTANICALS_VIEWPORT_WIDTH}px`,
                 '--botanicals-viewport-height': `${BOTANICALS_VIEWPORT_HEIGHT}px`,
             }}
@@ -419,7 +466,7 @@ function HomeBotanicals() {
                                 style={{
                                     width: HORIZONTAL_WIDTH,
                                     height: BASE_HEIGHT,
-                                    transform: 'translate3d(0px, 0px, 0px)',
+                                    transform: `translate3d(${guideLineOffsetX}px, 0px, 0px)`,
                                 }}
                             >
                                 <div className="botanical-flow">
@@ -443,6 +490,7 @@ function HomeBotanicals() {
                                                 style={{
                                                     ...flowLineStyles[index],
                                                     strokeWidth: screenAlignedStrokeWidth,
+                                                    opacity: linesOpacity,
                                                 }}
                                             />
                                         ))}
@@ -453,6 +501,7 @@ function HomeBotanicals() {
                                             style={{
                                                 ...startLineStyle,
                                                 strokeWidth: screenAlignedStrokeWidth,
+                                                opacity: linesOpacity,
                                             }}
                                         />
 
@@ -462,6 +511,7 @@ function HomeBotanicals() {
                                             style={{
                                                 ...mergeLineStyle,
                                                 strokeWidth: screenAlignedStrokeWidth,
+                                                opacity: linesOpacity,
                                             }}
                                         />
 
@@ -475,7 +525,8 @@ function HomeBotanicals() {
                                             preserveAspectRatio="none"
                                             className="botanical-flow__product-image"
                                             style={{
-                                                opacity: productRevealProgress,
+                                                opacity: finalProductOpacity,
+                                                transform: `translateY(${productDropOffset}px)`,
                                             }}
                                         />
 
@@ -485,6 +536,7 @@ function HomeBotanicals() {
                                             style={{
                                                 ...outlineLineStyle,
                                                 strokeWidth: screenAlignedStrokeWidth,
+                                                opacity: outlineFadeProgress,
                                             }}
                                         />
                                     </svg>
@@ -498,9 +550,19 @@ function HomeBotanicals() {
                                             <defs>
                                                 <path id="botanical-flow-quote-path" d={QUOTE_FLOW_PATH_D} />
                                             </defs>
+                                            <path
+                                                className="botanical-flow__line botanical-flow__line--quote"
+                                                d={QUOTE_FLOW_PATH_D}
+                                                style={{
+                                                    ...quoteFlowLineStyle,
+                                                    strokeWidth: screenAlignedStrokeWidth,
+                                                    stroke: 'none',
+                                                }}
+                                            />
                                             <text
                                                 className="botanical-flow__quote-text"
                                                 dy={-QUOTE_BASELINE_SHIFT_Y}
+                                                style={{ opacity: quoteTextOpacity }}
                                             >
                                                 <textPath
                                                     href="#botanical-flow-quote-path"
