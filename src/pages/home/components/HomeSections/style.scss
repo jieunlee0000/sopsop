@@ -26,7 +26,7 @@
 
         .home__best-item {
             position: absolute;
-            mix-blend-mode: multiply; // JPG의 하얀 배경을 노란 배경과 투명하게 섞어주는 핵심 장치
+            // mix-blend-mode: multiply; // JPG의 하얀 배경을 없애기 위해 넣었으나 제품(라벨)까지 투명해지는 부작용 발생으로 비활성화
             object-fit: contain;
             object-position: center center; // Ensure image content stays perfectly centered
             transform-origin: center center;
