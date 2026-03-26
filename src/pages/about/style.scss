@@ -1,515 +1,762 @@
-/* ==========================================
-   About Page – Aesop Renewal Full Layout
-   ========================================== */
-
 .about {
-    background-color: #fffef9; // 이솝 고유의 아이보리 톤
-    color: #333;
-    font-family: "Noto Sans KR", sans-serif;
-    overflow-x: hidden;
+  background-color: #fdfbf2;
+  font-family: "Pretendard", sans-serif;
+  overflow-x: clip;
 
-    /* ─────────────────────────────
+  /* ─────────────────────────────
         1. Hero Section
     ───────────────────────────── */
-    &__hero {
+  &__hero {
+    width: 100%;
+    aspect-ratio: 1920 / 900;
+    position: relative;
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+      background-color: #fdfbf2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      color: #888;
+    }
+
+    &-philosophy {
+      position: absolute;
+      bottom: 0;
+      left: 260px;
+      top: 100px;
+      display: flex;
+      align-items: center;
+      z-index: 10; // 아래에서 올라오는 Philosophy(z-index: 1, 배경색 있음)에 가려지지 않게 최상단 배치
+
+      .philosophy__letter {
+        font-family: "Ogg", serif;
+        font-size: 420px;
+        color: #fdfbf2;
+        flex: 0 0 auto;
+        line-height: 0.85;
+        user-select: none;
+        opacity: 0.85;
+      }
+
+      .philosophy__content {
+        flex: 0 0 46%;
+        padding: 80px 0 80px 60px;
+        border-left: 1px solid #fdfbf2;
+        background: transparent;
         position: relative;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        align-items: center;
+        margin-left: -80px;
+      }
 
-        &-bg {
-            position: absolute;
-            inset: 0;
-            background: url('/images/about/about_hero_bg.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: 0;
-        }
+      .philosophy__label {
+        display: block;
+        font-size: 24px;
+        color: #fdfbf2;
+        font-style: italic;
+        font-family: "Bona Nova";
+      }
 
-        &-watermark {
-            position: absolute;
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            font-size: clamp(5rem, 15vw, 14rem);
-            color: rgba(255, 255, 255, 0.15);
-            white-space: nowrap;
-            pointer-events: none;
-            z-index: 1;
+      .philosophy__title {
+        font-family: "Bona Nova";
+        font-size: 75px;
+        color: #fdfbf2;
+        margin-bottom: 16px;
+        white-space: nowrap;
+      }
 
-            &--top {
-                top: 3%;
-                left: -10%;
-            }
+      .philosophy__desc {
+        font-size: 20px;
+        color: #fdfbf2;
+        word-break: keep-all;
+        max-width: 500px;
+        font-weight: 300;
+        opacity: 1;
+      }
+    }
+  }
 
-            &--bottom {
-                bottom: 3%;
-                right: -12%;
-            }
-        }
+  // ─── Variables
+  $sand: #c9bfa8;
+  $espresso: #2a1f14;
+  $sepia: #8b7355;
+  $brown: #603b2d;
 
-        &-inner {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 60px;
-            color: #fff;
-        }
+  // ─── SECTION INTRO
+  .section-intro {
+    position: relative;
+    padding: 200px 200px 80px;
+    text-align: center;
+    overflow: hidden;
 
-        &-big-a {
-            font-family: 'Ogg', serif;
-            font-size: clamp(7rem, 14vw, 12rem);
-            line-height: 0.8;
-            margin-bottom: 20px;
-        }
+    &__inner {
+      display: grid;
+      place-items: center;
 
-        &-title {
-            font-family: 'Bona Nova', serif;
-            font-size: clamp(1.6rem, 3.5vw, 3rem);
-            line-height: 1.2;
-        }
+      > * {
+        grid-column: 1;
+        grid-row: 1;
+      }
     }
 
-    /* ─────────────────────────────
-        2. Philosophy (A-E-S-O-P)
+    &__watermark {
+      white-space: nowrap;
+      font-family: "Libre Baskerville", serif;
+      font-size: 150px;
+      font-style: italic;
+      color: $brown;
+      opacity: 0.08;
+      line-height: 1;
+      position: relative;
+      z-index: 0;
+      border-bottom: 1px solid $brown;
+    }
+
+    &__title {
+      font-size: 42px;
+      position: relative;
+      z-index: 1;
+      transform: translateY(40px);
+      color: var(--brown-brown-500-k, #603b2d);
+      margin-bottom: 26px;
+    }
+
+    &__sub {
+      font-size: 18px;
+      color: #806257;
+      font-weight: 300;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      padding: 10vh 80px 8vh;
+    }
+    @media (max-width: 768px) {
+      padding: 8vh 24px 6vh;
+    }
+  }
+  /* ─────────────────────────────
+        4. Timeline Bottle
     ───────────────────────────── */
-    &__philosophy {
-        padding: 150px 0;
+  &__bottle-wrap {
+    position: relative;
+    width: 323px;
+    height: 850px;
+    margin: 200px auto;
 
-        .inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 140px;
-        }
+    svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  }
 
-        .philosophy-item {
-            display: flex;
-            align-items: center;
-            gap: 80px;
+  &__bottle-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 0 35px 6px;
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
+    color: #603b2d;
+    text-align: center;
+    overflow: hidden;
+    // 병 모양 path에 맞춰 텍스트 영역 클리핑
+    clip-path: url(#bottle-clip);
+  }
 
-            &:nth-child(even) {
-                flex-direction: row-reverse;
-                text-align: right;
+  // 병 path 클리핑 래퍼 (overflow: hidden으로 내부 overlay 이동 영역 제한)
+  &__bottle-overlay-wrap {
+    position: absolute;
+    inset: 0;
+    clip-path: url(#bottle-clip);
+    overflow: hidden;
+    pointer-events: none;
+  }
 
-                .philosophy-content {
-                    border-left: none;
-                    border-right: 1px solid #d4c5b9;
-                    padding: 0 40px 0 0;
-                }
-            }
-        }
+  // 실제 오버레이 (GSAP이 y축 이동시켜 펼쳐지는 효과)
+  &__bottle-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: #fdfbf2;
+  }
 
-        .philosophy-letter {
-            font-family: 'Libre Baskerville', serif;
-            font-size: clamp(8rem, 18vw, 16rem);
-            color: #603B2D;
-            flex: 1;
-            text-align: center;
-        }
+  // ── Bottle layout structure classes (JSX에서 bt bt--* 형태로 사용)
+  .bt {
+    margin: 0;
 
-        .philosophy-content {
-            flex: 1;
-            padding-left: 40px;
-            border-left: 1px solid #d4c5b9;
-
-            .label {
-                display: block;
-                font-size: 0.9rem;
-                color: #b5a596;
-                font-style: italic;
-                margin-bottom: 15px;
-            }
-
-            .title {
-                font-family: 'Libre Baskerville', serif;
-                font-size: 2.4rem;
-                color: #603B2D;
-                margin-bottom: 25px;
-            }
-
-            .desc {
-                font-size: 1rem;
-                line-height: 1.9;
-                color: #666;
-                word-break: keep-all;
-            }
-        }
+    &--landmark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -8px;
     }
 
-    /* ─────────────────────────────
-        3. Gallery (지그재그)
+    &--row-mix {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-top: -6px;
+    }
+
+    &--bottom-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-top: auto;
+      color: #b5a596;
+    }
+
+    &--small {
+      font-size: 13px;
+    }
+
+    &.gap-sm {
+      gap: 6px;
+    }
+  }
+
+  // ── bt_text_* 공통 리셋
+  [class^="bt_text"] {
+    margin: 0;
+    line-height: 1;
+  }
+
+  // 1987
+  .bt_text_1 {
+    font-size: 135px;
+  }
+  // Formulation for the Mind and Body
+  .bt_text_2 {
+    font-size: 18px;
+    font-family: "Pretendard", sans-serif;
+    margin-left: -40px;
+    margin-top: -10px;
+    font-weight: 200;
+    font-style: normal;
+    color: #b6a59e;
+  }
+  // Foundation
+  .bt_text_3 {
+    font-size: 49px;
+    color: #806257;
+    margin-left: -35px;
+  }
+  // 1992
+  .bt_text_4 {
+    font-size: 60px;
+    margin-left: -28px;
+    color: #b6a59e;
+    font-style: normal;
+  }
+  .bt_text_5_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  // Essential
+  .bt_text_5 {
+    font-size: 28px;
+    color: #b6a59e;
+  }
+  // Formulations
+  .bt_text_5_1 {
+    font-size: 22px;
+    font-family: "Pretendard", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    color: #cec2be;
+  }
+  // 2003
+  .bt_text_6 {
+    font-size: 95px;
+    color: #947c72;
+  }
+  // The First Landmark (bold with line)
+  .bt_text_7 {
+    font-size: 16px;
+    font-style: normal;
+    margin-left: -10px;
+    font-weight: 700;
+    color: #b6a59e;
+  }
+  // landmark line
+  .bt_text_8 {
+    display: inline-block;
+    width: 80px;
+    height: 0.452px;
+    background: #947c72;
+  }
+  // Signiture (italic)
+  .bt_text_9 {
+    font-size: 21px;
+    opacity: 0.3;
+  }
+  // The First Landmark (small)
+  .bt_text_10 {
+    font-size: 19px;
+    font-family: "Pretendard", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    color: #cec2be;
+    margin-top: 8px;
+  }
+  .bt_text_11_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  // Global
+  .bt_text_11 {
+    font-size: 35px;
+    color: #b6a59e;
+  }
+  // Expansion
+  .bt_text_11_1 {
+    font-size: 21px;
+    color: #cec2be;
+    border-bottom: 1px solid #cec2be;
+    padding-bottom: 6px;
+  }
+  // 2012
+  .bt_text_12 {
+    font-size: 70px;
+    color: #b6a59e;
+    margin-top: 5px;
+  }
+  .bt_text_13_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  // in
+  .bt_text_13 {
+    margin-top: 10px;
+    margin-left: 12px;
+    font-size: 28px;
+    color: #cec2be;
+  }
+  // Seoul
+  .bt_text_13_1 {
+    margin-left: 12px;
+    font-size: 10px;
+    color: #cec2be;
+    font-style: normal;
+  }
+  // 2014
+  .bt_text_14 {
+    font-size: 40px;
+    font-style: normal;
+    color: #b6a59e;
+  }
+  // Heritage
+  .bt_text_15 {
+    font-size: 36px;
+    color: #cec2be;
+  }
+  // 2020
+  .bt_text_16 {
+    font-size: 100px;
+    margin-left: 10px;
+  }
+  // B Corp
+  .bt_text_17 {
+    font-size: 40px;
+    color: #806257;
+  }
+  .bt_text_18_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  // Certification
+  .bt_text_18 {
+    font-size: 18px;
+    font-family: "Pretendard";
+    font-style: normal;
+    margin-right: 8px;
+    color: #b6a59e;
+  }
+  // signiture
+  .bt_text_18_1 {
+    font-size: 21px;
+    color: #cec2be;
+  }
+  // Intelligent *2
+  .bt_text_19 {
+    font-size: 11px;
+    margin-left: -4px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 100;
+    text-align: left;
+    color: #b6a59e;
+  }
+  .bt_text_2024_row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .bt_text_2024_left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding-left: 12px;
+  }
+  .bt_text_20_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: flex-start;
+  }
+  // Balanced
+  .bt_text_20 {
+    font-size: 20px;
+    color: #b6a59e;
+    align-self: flex-start;
+    text-align: left;
+  }
+  // Intelligent long
+  .bt_text_21 {
+    font-size: 8px;
+    opacity: 0.15;
+    align-self: flex-start;
+    text-align: left;
+  }
+  // Formulations
+  .bt_text_22 {
+    font-size: 12px;
+    color: #cec2be;
+    font-style: normal;
+    align-self: flex-start;
+    text-align: left;
+  }
+  // Intelligent x4
+  .bt_text_23 {
+    font-size: 5px;
+    opacity: 0.15;
+    align-self: flex-start;
+    text-align: left;
+  }
+  // 2024
+  .bt_text_24 {
+    font-size: 53px;
+    color: #cec2be;
+    align-self: flex-end;
+    text-align: right;
+    padding-right: 60px;
+  }
+  .bt_text_25_wrap {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    width: 100%;
+    padding-left: 20px;
+  }
+  // Sincere
+  .bt_text_25 {
+    font-size: 18px;
+    white-space: nowrap;
+  }
+  .bt_text_25_1 {
+    display: inline-block;
+    width: 127px;
+    height: 1px;
+    background: #603b2d;
+  }
+  // Meticulous
+  .bt_text_26 {
+    font-size: 37px;
+    color: #806257;
+  }
+  // 2025
+  .bt_text_27 {
+    font-size: 13px;
+    color: #cec2be;
+    opacity: 0.7;
+  }
+  // Anatole France
+  .bt_text_28 {
+    font-size: 15px;
+    color: #b6a59e;
+    margin-top: 2px;
+  }
+  // Signiture
+  .bt_text_29 {
+    font-size: 16px;
+    color: #cec2be;
+    margin-top: 15px;
+    border-top: 1px solid #cec2be;
+    padding-top: 4px;
+    margin-left: 5px;
+  }
+  // detail
+  .bt_text_30 {
+    font-size: 24px;
+    color: #b6a59e;
+    margin-left: 5px;
+  }
+  // Heritage
+  .bt_text_31 {
+    font-size: 15px;
+    color: #cec2be;
+    margin-left: 5px;
+  }
+  // Balanced
+  .bt_text_32 {
+    font-size: 14px;
+    opacity: 0.4;
+    margin-left: 5px;
+  }
+
+  // ─── NOW SECTION
+  .now {
+    position: relative;
+    padding: 150px 200px 140px;
+    text-align: center;
+    overflow: hidden;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__heading-wrap {
+      display: grid;
+      place-items: center;
+
+      > * {
+        grid-column: 1;
+        grid-row: 1;
+      }
+    }
+
+    &__watermark {
+      white-space: nowrap;
+      font-family: "Libre Baskerville", serif;
+      font-size: 150px;
+      font-style: italic;
+      color: $brown;
+      opacity: 0.08;
+      line-height: 1;
+      z-index: 0;
+    }
+
+    &__heading {
+      font-family: "Ogg", serif;
+      font-size: 144px;
+      font-weight: 400;
+      color: #603b2d;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      letter-spacing: -1px;
+      margin-bottom: 19px;
+    }
+
+    &__rule {
+      width: 1px;
+      height: 150px;
+      background: $sand;
+      margin-bottom: 32px;
+      opacity: 0.7;
+    }
+
+    &__title {
+      font-size: 42px;
+      color: #603b2d;
+      z-index: 1;
+      align-self: end;
+      margin-bottom: 8px;
+    }
+
+    &__sub {
+      font-size: 18px;
+      color: #806257;
+      font-weight: 300;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      padding: 12vh 80px 14vh;
+    }
+    @media (max-width: 768px) {
+      padding: 10vh 24px 12vh;
+    }
+  }
+
+  /* ─────────────────────────────
+        5. Sensory (4 이미지 콜라주)
     ───────────────────────────── */
-    &__gallery {
-        position: relative;
-        padding: 120px 0;
-
-        &-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            font-size: clamp(10rem, 25vw, 250px);
-            color: rgba(96, 59, 45, 0.04);
-            white-space: nowrap;
-            z-index: 0;
-        }
-
-        &-track {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-        }
-
-        &-item {
-            flex-shrink: 0;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
-            }
-
-            &--small {
-                width: 287px;
-                height: 433px;
-                align-self: flex-end;
-            }
-
-            &--large {
-                width: 438px;
-                height: 600px;
-                align-self: flex-start;
-            }
-        }
+  &__sensory {
+    // "Sensory" 이탤릭 타이틀
+    &-title {
+      font-family: "Libre Baskerville", serif;
+      font-style: italic;
+      font-size: clamp(4rem, 10vw, 8rem);
+      color: #603b2d;
+      opacity: 0.3;
+      margin: 300px 0 0 360px;
+      font-size: 180px;
+      position: relative;
+      z-index: 2;
     }
 
-    /* ─────────────────────────────
-        4. Journey & Timeline (중앙 이미지형)
-    ───────────────────────────── */
-    // ─── Variables (전역에 선언된 것 참고)
-    $cream: #f5f0e8;
-    $sand: #c9bfa8;
-    $espresso: #2a1f14;
-    $sepia: #8b7355;
-    $brown: #603B2D;
-
-    // ─── SECTION INTRO
-    .section-intro {
-        position: relative;
-        padding: 10vh 6vw 8vh;
-        text-align: center;
-        overflow: hidden;
-
-        &__watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            white-space: nowrap;
-            font-family: 'Libre Baskerville', serif;
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 400;
-            font-style: italic;
-            color: $brown;
-            opacity: 0.08;
-            pointer-events: none;
-            z-index: 0;
-            line-height: 1;
-        }
-
-        &__inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        &__title {
-            font-family: 'Pretendard';
-            font-size: clamp(1.4rem, 3vw, 2rem);
-            font-weight: 400;
-            color: var(--brown-brown-500-k, #603B2D);
-            letter-spacing: 0.05em;
-            line-height: 1.4;
-            margin-bottom: 1.6rem;
-        }
-
-        &__rule {
-            width: 100%;
-            max-width: 600px;
-            height: 1px;
-            background: $sand;
-            margin: 0 auto 1.4rem;
-            opacity: 0.6;
-        }
-
-        &__sub {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 0.82rem;
-            color: $sepia;
-            letter-spacing: 0.12em;
-            font-weight: 300;
-        }
+    &-grid {
+      position: relative;
+      height: 1835px;
+      margin-bottom: 200px;
     }
 
-    &__journey {
-        position: relative;
-        padding: 180px 0;
-        text-align: center;
+    &-img {
+      position: absolute;
+      overflow: hidden;
 
-        &-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            font-size: clamp(8rem, 20vw, 16rem);
-            color: rgba(96, 59, 45, 0.05);
-            z-index: 0;
-        }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+      }
 
-        &-title {
-            font-size: 2.8rem;
-            color: #603B2D;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-        }
-
-        &-subtitle {
-            font-size: 1.1rem;
-            color: #888;
-            position: relative;
-            z-index: 1;
-        }
+      &:hover img {
+        transform: scale(1.03);
+      }
+      &--a {
+        top: -100px;
+        left: 0;
+        width: 586px;
+        height: 777px;
+        z-index: 1;
+      }
+      &--b {
+        top: -120px;
+        right: 200px;
+        width: 843px;
+        height: 657px;
+        z-index: 1;
+      }
+      &--c {
+        top: 720px;
+        left: 400px;
+        width: 581px;
+        height: 402px;
+        z-index: 2;
+      }
+      &--d {
+        top: 850px;
+        right: 0;
+        width: 1000px;
+        height: 985px;
+        z-index: 3;
+      }
     }
 
-    &__timeline {
-        padding: 100px 0 200px;
-
-        &-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 100px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        &-visual {
-            flex: 0 0 400px;
-
-            img {
-                width: 100%;
-            }
-        }
-
-        &-text {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 150px;
-
-            &.left {
-                text-align: right;
-            }
-
-            &.right {
-                text-align: left;
-            }
-
-            .text-item {
-                h3 {
-                    font-family: 'Libre Baskerville', serif;
-                    font-size: 1.3rem;
-                    color: #603B2D;
-                    margin-bottom: 15px;
-                }
-
-                p {
-                    font-size: 0.95rem;
-                    line-height: 1.8;
-                    color: #666;
-                }
-            }
-        }
+    &-text {
+      position: absolute;
+      top: 850px;
+      left: 290px;
+      right: 500px;
+      height: 985px;
+      z-index: 4;
+      padding: 0 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    // ─── NOW SECTION
-    .now {
-        position: relative;
-        padding: 12vh 6vw 14vh;
-        text-align: center;
-        overflow: hidden;
-
-        &__watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-46%, -30%);
-            white-space: nowrap;
-            font-family: 'Libre Baskerville', Georgia, serif;
-            font-size: clamp(3.5rem, 9vw, 8rem);
-            font-weight: 400;
-            font-style: italic;
-            color: $brown;
-            opacity: 0.07;
-            pointer-events: none;
-            z-index: 0;
-            line-height: 1;
-        }
-
-        &__inner {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        &__heading {
-            font-family: 'Libre Baskerville', Georgia, serif;
-            font-size: clamp(4rem, 10vw, 9rem);
-            font-weight: 400;
-            color: $espresso;
-            line-height: 1;
-            letter-spacing: -0.01em;
-            margin-bottom: 1.2rem;
-        }
-
-        &__rule {
-            width: 1px;
-            height: clamp(3rem, 5vw, 5rem);
-            background: $sand;
-            margin-bottom: 2rem;
-            opacity: 0.7;
-        }
-
-        &__title {
-            font-family: 'Noto Serif KR', serif;
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            font-weight: 400;
-            color: $espresso;
-            letter-spacing: 0.04em;
-            margin-bottom: 1rem;
-        }
-
-        &__sub {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 0.8rem;
-            color: $sepia;
-            letter-spacing: 0.08em;
-            font-weight: 300;
-            line-height: 1.8;
-        }
+    &-text-inner {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
     }
 
-    /* ─────────────────────────────
-        5. Sensory & Quote (콜라주)
-    ───────────────────────────── */
-    &__sensory {
-        padding: 150px 0;
-
-        &-title {
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            font-size: clamp(4rem, 10vw, 8rem);
-            color: #b5a596;
-            margin-bottom: -40px;
-            margin-left: 100px;
-            position: relative;
-            z-index: 10;
-        }
-
-        &-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-
-            .sensory-item {
-                position: relative;
-
-                img {
-                    width: 100%;
-                    object-fit: cover;
-                }
-            }
-
-            .item-bubbles {
-                grid-column: 1 / 5;
-                margin-top: 50px;
-            }
-
-            .item-cream {
-                grid-column: 6 / 12;
-                z-index: 2;
-
-                .texture-label {
-                    position: absolute;
-                    bottom: -30px;
-                    right: 40%;
-                    font-family: 'Libre Baskerville', serif;
-                    color: #b5a596;
-                    font-size: 1.5rem;
-                }
-            }
-
-            .item-face {
-                grid-column: 3 / 7;
-                margin-top: -80px;
-                z-index: 3;
-            }
-
-            .item-wave {
-                grid-column: 6 / 13;
-                margin-top: -150px;
-                z-index: 1;
-
-                .quote-wrap {
-                    position: absolute;
-                    bottom: 40px;
-                    left: -80%;
-                    width: 150%;
-                    color: #603B2D;
-
-                    .quote-title {
-                        font-family: 'Libre Baskerville', serif;
-                        font-size: clamp(3rem, 6vw, 5rem);
-                        font-style: italic;
-                        margin-bottom: 20px;
-                    }
-
-                    .quote-text {
-                        font-size: 0.85rem;
-                        line-height: 1.8;
-                        max-width: 500px;
-                        opacity: 0.8;
-                    }
-                }
-            }
-        }
+    &-text-title {
+      font-family: "Libre Baskerville", serif;
+      font-style: italic;
+      font-size: 180px;
+      color: #e6e0d6;
+      white-space: nowrap;
     }
 
-    /* ─────────────────────────────
-        6. Brand Footer
-    ───────────────────────────── */
-    &__brand-footer {
-        padding: 180px 0;
-        background-color: #603B2D;
-        text-align: center;
-
-        .brand-logo {
-            font-family: 'Libre Baskerville', serif;
-            font-size: clamp(8rem, 20vw, 18rem);
-            color: #fffef9;
-            letter-spacing: -0.03em;
-        }
+    &-text-sub {
+      font-size: 16px;
+      color: #806257;
+      font-weight: 300;
+      word-break: keep-all;
+      margin-top: -50px;
     }
+
+    // ── Tablet
+    @media (max-width: 1024px) {
+      padding: 80px 80px 120px;
+
+      &-grid {
+        gap: 12px;
+      }
+
+      &-img {
+        &--a {
+          height: 480px;
+        }
+        &--b {
+          height: 280px;
+        }
+        &--c,
+        &--d {
+          height: 192px;
+        }
+      }
+    }
+
+    // ── Mobile
+    @media (max-width: 768px) {
+      padding: 60px 24px 80px;
+
+      &-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 10px;
+      }
+
+      &-img {
+        &--a {
+          grid-column: 1 / 3;
+          grid-row: 1 / 2;
+          height: 260px;
+        }
+        &--b {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+          height: 200px;
+        }
+        &--c {
+          grid-column: 2 / 3;
+          grid-row: 2 / 3;
+          height: 200px;
+        }
+        &--d {
+          grid-column: 1 / 3;
+          grid-row: 3 / 4;
+          height: 200px;
+        }
+      }
+
+      &-desc {
+        text-align: left;
+      }
+    }
+  }
 }

@@ -11,43 +11,31 @@
 .home {
     &__best {
         position: relative;
-        z-index: 0;
-        padding: 100px 0 150px;
+        z-index: 2;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
         background: $color-yellow-500;
+        margin-top: -30vh; // Overlaps exactly over the end of Botanicals
 
         @include mobile {
             padding: 60px 0 100px;
+            margin-top: -10vh;
         }
 
-        &-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .home__best-item {
+            position: absolute;
+            // mix-blend-mode: multiply; // JPG의 하얀 배경을 없애기 위해 넣었으나 제품(라벨)까지 투명해지는 부작용 발생으로 비활성화
+            object-fit: contain;
+            object-position: center center; // Ensure image content stays perfectly centered
+            transform-origin: center center;
+            width: 33.854vw; // exact 650px ratio to 1920px
+            height: 33.854vw;
 
-            @include tablet {
-                flex-direction: column;
-                gap: 50px;
-            }
-        }
-
-        &-visual {
-            width: 55%;
-            display: flex;
-            justify-content: flex-start;
-
-            img {
-                width: 100%;
-                max-width: 600px;
-                object-fit: contain;
-
-                @include mobile {
-                    max-width: 100%;
-                }
-            }
-
-            @include tablet {
-                width: 100%;
-                justify-content: center;
+            @include mobile {
+                width: 45vw;
+                height: 45vw;
             }
         }
 
@@ -157,6 +145,10 @@
             @include mobile {
                 font-size: 32px;
                 letter-spacing: -0.5px;
+
+                br {
+                    display: none;
+                }
             }
         }
 
@@ -206,6 +198,10 @@
             @include mobile {
                 font-size: 32px;
                 letter-spacing: -0.5px;
+
+                br {
+                    display: none;
+                }
             }
         }
 
@@ -294,7 +290,7 @@
 
         &:nth-child(3) {
             .home__gift-image {
-                transform: rotate(0);
+                transform: rotate(-2.052deg);
             }
         }
 
@@ -395,6 +391,10 @@
             @include mobile {
                 font-size: 32px;
                 letter-spacing: -1.5px;
+
+                br {
+                    display: none;
+                }
             }
         }
 

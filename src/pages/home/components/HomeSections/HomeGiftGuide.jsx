@@ -9,18 +9,6 @@ function HomeGiftGuide() {
 
     useGSAP(
         () => {
-            // Intro content reveal.
-            gsap.from('.home__gift-guide-content', {
-                scrollTrigger: {
-                    trigger: '.home__gift-guide',
-                    start: 'top 80%',
-                },
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                ease: 'power2.out',
-            });
-
             // Featured gift items stagger in.
             gsap.from('.home__gift-item', {
                 scrollTrigger: {
@@ -49,35 +37,15 @@ function HomeGiftGuide() {
 
     return (
         <div ref={containerRef}>
-            {/* Gift guide intro */}
-            <section className="home__gift-guide">
-                <div className="inner">
-                    <div className="home__gift-guide-content">
-                        <h2 className="home__gift-guide-title">
-                            Aesop's <span className="italic">sensorial</span> care experiences to
-                            <br />
-                            share with someone <span className="italic">special</span>
-                        </h2>
-                        <p className="home__gift-guide-desc">
-                            이솝의 감각적인 케어 경험을 소중한 사람에게 전해보세요.
-                            <br />
-                            일상 속 순간을 더욱 특별하게 만들어 줍니다.
-                        </p>
-                        <Link to="/gift" className="home__gift-guide-btn">
-                            Gift Guide
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
             {/* Featured gift list */}
             <section className="home__gift-featured">
                 {/* Background line artwork */}
                 <div className="home__gift-bg">
                     <svg viewBox="0 0 1440 1200" fill="none" preserveAspectRatio="none">
-                        <path d="M 0 200 Q 360 100 720 200 T 1440 200" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
-                        <path d="M 0 600 Q 360 700 720 600 T 1440 600" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
-                        <path d="M 0 1000 Q 360 900 720 1000 T 1440 1000" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        <path d="M 0 150 Q 360 50 720 150 T 1440 150" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        {/* <path d="M 0 550 Q 360 450 720 550 T 1440 550" stroke="#603b2d" strokeWidth="1" opacity="0.6" /> */}
+                        <path d="M 0 550 Q 360 650 720 550 T 1440 550" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
+                        <path d="M 0 930 Q 360 830 720 930 T 1440 930" stroke="#603b2d" strokeWidth="1" opacity="0.6" />
                     </svg>
                 </div>
 

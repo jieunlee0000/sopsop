@@ -10,7 +10,7 @@ import './ProductDetail.scss';
 const PRODUCT_DETAIL_TABS = [
     { id: 'details', label: '제품 상세' },
     { id: 'shipping', label: '배송 안내' },
-    { id: 'reviews', label: '후기' },
+    { id: 'reviews', label: '리뷰' },
 ];
 
 function getInitialSelectedVolume(product) {
